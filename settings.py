@@ -10,7 +10,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ["www.vhms.com"]
+ALLOWED_HOSTS = ["*"]
 
 TIME_ZONE = "Europe/Moscow"
 
@@ -62,7 +62,7 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 #############
 
 DATABASES = {
-    "default": dj_database_url.config(),
+    'default': dj_database_url.config(),
 }
 
 
