@@ -1,6 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 import dj_database_url
 
+SECRET_KEY = "4b3b840c-16a2-4a06-a772-eac93b8ae12278f84f40-2ee7-4ced-8142-e0b42a20c56a8b98d246-057b-4afa-8c08-2177451fca4e"
+
 USE_SOUTH = True
 
 ADMINS = (
