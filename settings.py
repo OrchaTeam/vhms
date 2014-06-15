@@ -80,12 +80,12 @@ PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
 
 CACHE_MIDDLEWARE_KEY_PREFIX = PROJECT_DIRNAME
 
-STATIC_URL = "/assets/"
+STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'assets'),
 )
 
 MEDIA_URL = STATIC_URL + "media/"
