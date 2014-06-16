@@ -1,1 +1,1 @@
-web: gunicorn vhms.wsgi
+web: gunicorn wsgi
