@@ -144,6 +144,7 @@ LOCAL_APPS = (
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# Customize for gunicorn
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
