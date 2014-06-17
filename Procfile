@@ -1,1 +1,1 @@
-web: gunicorn wsgi
+web: python manage.py run_gunicorn 

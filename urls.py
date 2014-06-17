@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.conf import settings
 
 from django.conf.urls import patterns, include, url
 from django.conf.urls.i18n import i18n_patterns
@@ -9,7 +10,11 @@ from mezzanine.core.views import direct_to_template
 
 admin.autodiscover()
 
-urlpatterns = i18n_patterns("",
+urlpatterns = patterns('',
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+)
+
+urlpatterns += i18n_patterns("",
     ("^admin/", include(admin.site.urls)),
 )
 

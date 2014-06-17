@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 import dj_database_url
 
-SECRET_KEY = "4b3b840c-16a2-4a06-a772-eac93b8ae12278f84f40-2ee7-4ced-8142-e0b42a20c56a8b98d246-057b-4afa-8c08-2177451fca4e"
+SECRET_KEY = "4b3b840c-16a2-4a06-a772-eac93b8ae12278f84f40-2ee7-4ced-8142-e0b42a20c56a8b98d246-057b-4afa-8c08-2177451fca4f"
 
 USE_SOUTH = True
 
@@ -84,8 +84,10 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
 STATICFILES_DIRS = (
-    #os.path.join(PROJECT_ROOT, 'assets'),
+    os.path.join(PROJECT_ROOT, "assets"),
 )
 
 MEDIA_URL = STATIC_URL + "media/"
@@ -133,6 +135,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount.providers.facebook",
     "allauth.socialaccount.providers.vk",
     "widget_tweaks",
+    "gunicorn",
     )
 
 LOCAL_APPS = (
@@ -140,6 +143,11 @@ LOCAL_APPS = (
     )
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+}
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
