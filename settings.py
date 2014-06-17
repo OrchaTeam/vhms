@@ -84,10 +84,8 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
 
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, "assets"),
+    #os.path.join(PROJECT_ROOT, "assets"),
 )
 
 MEDIA_URL = STATIC_URL + "media/"
@@ -97,6 +95,8 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
 ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
+
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 ################
 # APPLICATIONS #
