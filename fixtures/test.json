@@ -1,0 +1,13 @@
+[
+    { 
+        "model": "profiles.Profile",
+        "pk": 1,
+        "fields": {
+            "first_name": "orcha",
+            "last_name": "orcha",
+            "birthday": "1987-06-22",
+            "user": 1,
+            "type": 1
+        }
+    }
+]

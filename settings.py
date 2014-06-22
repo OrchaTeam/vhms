@@ -96,6 +96,10 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
+FIXTURE_DIRS = (
+    os.path.join(PROJECT_ROOT, "fixtures"),
+)
+
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 ################
@@ -139,8 +143,11 @@ THIRD_PARTY_APPS = (
     )
 
 LOCAL_APPS = (
-
+    "profiles",
     )
+
+####ВЫНЕСТИ ВО ВНЕШНИЙ СЕТТИНГ, СКОРЕЙ ВСЕГО ALLAUTH
+LOGIN_REDIRECT_URL = '/profile'
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
