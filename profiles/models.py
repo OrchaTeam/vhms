@@ -14,7 +14,7 @@ class ProfileType(models.Model):
 
 class Profile(models.Model):
 
-    first_name = models.CharField(verbose_name=_("irst_name"), max_length=64)
+    first_name = models.CharField(verbose_name=_("first_name"), max_length=64)
     last_name = models.CharField(verbose_name=_("second_name"), max_length=64)
     birthday = models.DateTimeField(verbose_name=_("birthday"), null=True)
     is_merchant = models.BooleanField(default=False)
