@@ -209,7 +209,7 @@ OPTIONAL_APPS = (
 )
 
 try:
-    from local_settings import *
+    from config.local_settings import *
 except ImportError:
     pass
 
