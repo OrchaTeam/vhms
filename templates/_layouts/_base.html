@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    {% block page_css %}
+    {%comment%}ticket67{%endcomment%}
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.png">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-theme.css"/>
+    {% endblock page_css %}
+    <title>
+        {% block page_title %}{% endblock %} - Virtual Hand Made Shop
+    </title>
+</head>
+<body>
+    <header>
+        {% include "_layouts/_header.html" %}
+    </header>
+    <div id="content">
+        <div class="container">
+            {% block page_content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div id="footer">
+        {% block page_footer %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+
+{%comment%}ticket67{%endcomment%}
+{% block page_js %}
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+{% endblock page_js %}
