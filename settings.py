@@ -143,7 +143,7 @@ THIRD_PARTY_APPS = (
     )
 
 LOCAL_APPS = (
-    "profiles",
+    "apps.profiles",
     )
 
 ####ВЫНЕСТИ ВО ВНЕШНИЙ СЕТТИНГ, СКОРЕЙ ВСЕГО ALLAUTH
