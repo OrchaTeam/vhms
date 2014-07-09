@@ -7,17 +7,24 @@ from django.contrib import admin
 
 from mezzanine.core.views import direct_to_template
 
-
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+# Tech
+urlpatterns = patterns("",
+    (r"^static/(?P<path>.*)$", 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 )
 
+# Admin
 urlpatterns += i18n_patterns("",
     ("^admin/", include(admin.site.urls)),
 )
 
+# Include
+urlpatterns += patterns("", 
+    url(r"^", include("apps.accounts.urls", app_name="accounts")),
+)
+
+# Overall
 urlpatterns += patterns('',
     url("^$", direct_to_template, {"template": "index.html"}, name="home"),
 

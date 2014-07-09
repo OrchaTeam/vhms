@@ -18,24 +18,24 @@
             </ul>
             {% if user.is_authenticated %}
             <div>
-                <a class="navbar-brand" href="{% url 'profile' %}">
+                <a class="navbar-brand" href="{%comment%}{% url 'profile' %}{%endcomment%}">
                     <span class="label label-success">
                         {{ user.username }}
                     </span>
                 </a>
             </div>
-            <form action="" class="navbar-form navbar-right">
+            <form action="{% url 'accounts_logout' %}" class="navbar-form navbar-right">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Выход</button>
                 </div>
             </form>
             {% else %}
-            <form  action="" class="navbar-form navbar-right">
+            <form  action="{% url 'accounts_signup' %}" class="navbar-form navbar-right">
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Регистрация</button>
                 </div>
             </form>
-            <form action="" class="navbar-form navbar-right">
+            <form action="{% url 'accounts_login' %}""" class="navbar-form navbar-right">
                 <div class="form-group">
                     <button class="btn btn-primary">Войти</button>
                 </div>

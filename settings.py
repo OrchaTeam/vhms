@@ -48,7 +48,8 @@ TEMPLATE_LOADERS = (
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "mezzanine.core.auth_backends.MezzanineBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",)
+    #"allauth.account.auth_backends.AuthenticationBackend",
+    )
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -124,10 +125,10 @@ MEZZANINE_APPS = (
     "mezzanine.generic",
     "mezzanine.forms",
     "mezzanine.pages",
+    "mezzanine.accounts",
     #"mezzanine.blog",
     #"mezzanine.galleries",
     #"mezzanine.twitter",
-    "mezzanine.accounts",
     #"mezzanine.mobile",
     )
 
@@ -135,19 +136,17 @@ THIRD_PARTY_APPS = (
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.facebook",
-    "allauth.socialaccount.providers.vk",
+    #"allauth.socialaccount.providers.github",
+    #"allauth.socialaccount.providers.facebook",
+    #"allauth.socialaccount.providers.vk",
     "widget_tweaks",
     "gunicorn",
     )
 
 LOCAL_APPS = (
     "apps.profiles",
+    "apps.accounts",
     )
-
-####ВЫНЕСТИ ВО ВНЕШНИЙ СЕТТИНГ, СКОРЕЙ ВСЕГО ALLAUTH
-LOGIN_REDIRECT_URL = '/profile'
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -211,7 +210,12 @@ OPTIONAL_APPS = (
 try:
     from config.local_settings import *
 except ImportError:
-    pass
+    print ("Error. Local settings not found.")
+
+try:
+    from config.account_settings import *
+except ImportError:
+    print ("Error. Allauth settings not found.")
 
 try:
     from mezzanine.utils.conf import set_dynamic_settings
