@@ -22,10 +22,10 @@
    margin: auto;
    }
 .form-field {
-   padding:8px;
-   margin-bottom:20px;
-   width:250px;
-   margin: auto;
+   padding:5px;
+   margin-bottom:10px;
+   width:240px;
+   margin: left;
    }
 .form-field:focus {
    background: #fff;

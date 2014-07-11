@@ -28,14 +28,12 @@
         {% csrf_token %}
         {% for field in form %}
             {% if field.errors %}
-                <div>
+                <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-field" }}
+                <div style="float: right;">
                     <h4>&times;</h4>
                 </div>
-                {{ field.label }}{{ field|add_class:"form-control" }}
             {% else %}
-                <div class="form-field">
-                  <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-control" }}
-                </div>
+                <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-field" }}
             {% endif %}
         {% endfor %}
         <div class="submit-container">
