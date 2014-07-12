@@ -1,7 +1,7 @@
 {% extends "_layouts/_base.html" %}
 {% load i18n mezzanine_tags widget_tweaks %}
 
-{% block page_title %}Вход{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/signin.css"/>
@@ -24,7 +24,7 @@
 
 <div class="form-container">
     <div class="form-title"><h2>{{ title }}</h2></div>
-    <form method="post"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+    <form method="post">
         {% csrf_token %}
         {% for field in form %}
             {% if field.errors %}
@@ -36,6 +36,17 @@
                 <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-field" }}
             {% endif %}
         {% endfor %}
+        {% if "Log in" in title %}
+        {% comment %} 
+        <p>{% blocktrans with request.GET.next as next %}If you don't have an account you can <a href="{{ accounts_signup }}?next={{ next }}">sign up</a> for one now.{% endblocktrans %}</p> %} 
+        {% endcomment %}
+        <p>If you don't have an account you can <a href="{% url 'accounts_signup' %}">sign up</a> for one now.</p>
+        {% elif "Sign up" in title %}
+        {% comment %}
+        <p>{% blocktrans with request.GET.next as next %}If you have an account you can <a href="{{ accounts_login }}?next={{ next }}">sign in</a> for one now.{% endblocktrans %}</p>
+        {% endcomment %}
+        <p>If you have an account you can <a href="{% url 'accounts_login' %}">sign in</a> for one now.</p>
+         {% endif %}
         <div class="submit-container">
             {% block account_form_actions %}
             <input class="submit-button" type="submit" value="{{ title }}">
