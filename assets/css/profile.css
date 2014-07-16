@@ -1,0 +1,31 @@
+.site-container {
+    border-radius: 3px;
+    width: 1050px;
+    margin: auto;
+}
+
+.nav-container {
+    position: relative;
+    border-radius: 5px;
+    border: 2px solid;
+    margin: 0px 0px 15px;
+    float: left;
+    width: 250px;
+}
+
+.nav-container > h3 {
+    font: 17px/1.4 Helvetica;
+}
+
+.profile-container {
+    position: relative;
+    border-radius: 3px;
+    border: 2px solid;
+    margin: 0px 0px 15px;
+    float: right;
+    width: 750px;
+}
+
+.profile-container > h3 {
+    font: 17px/1.4 Helvetica;
+}
