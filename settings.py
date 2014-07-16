@@ -210,12 +210,17 @@ OPTIONAL_APPS = (
 try:
     from config.local_settings import *
 except ImportError:
-    print ("Error. Local settings not found.")
+    pass
 
 try:
     from config.account_settings import *
 except ImportError:
     print ("Error. Allauth settings not found.")
+
+try:
+    from config.profile_settings import *
+except ImportError:
+    print ("Error. Profile settings not found.")
 
 try:
     from mezzanine.utils.conf import set_dynamic_settings

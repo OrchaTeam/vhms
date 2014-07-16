@@ -22,6 +22,7 @@ urlpatterns += i18n_patterns("",
 # Include
 urlpatterns += patterns("", 
     url(r"^", include("apps.accounts.urls", app_name="accounts")),
+    url(r"^", include("apps.profiles.urls", app_name="profiles")),
 )
 
 # Overall
