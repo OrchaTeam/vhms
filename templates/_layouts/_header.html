@@ -18,7 +18,7 @@
             </ul>
             {% if user.is_authenticated %}
             <div>
-                <a class="navbar-brand" href="{%comment%}{% url 'profile' %}{%endcomment%}">
+                <a class="navbar-brand" href="{% url 'profile' user.username %}">
                     <span class="label label-success">
                         {{ user.username }}
                     </span>
