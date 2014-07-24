@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
+from mezzanine.accounts import views
 #from .views import profile_view
 
 urlpatterns = patterns('',
-    url(r'^profile/(?P<username>\w+)/$', 'mezzanine.accounts.views.profile', name="profiles_profile"),
+    url(r'^profile/(?P<username>.*)/$', views.profile, {'template': 'profiles/profiles_profile.html'}, name="profiles_profile"),
 )
