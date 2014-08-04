@@ -2,16 +2,9 @@ AUTH_PROFILE_MODULE = "profiles.Profile"
 
 ACCOUNTS_PROFILE_FORM_CLASS = "apps.profiles.forms.VHMSProfileForm"
 
-VHMS_SIGNUP_FORM_EXCLUDE_FIELDS = (
-    "type",
-    "is_merchant",
-    "related_profile",
-    "user",
-    "birthday",
-    )
+# VHMS variables
 
-# Exclude profile form
-ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
-    "is_merchant",
+# there are only profile fields, not user
+VHMS_PROFILE_FORM_EXCLUDE_FIELDS = (
     "related_profile",
-)
+    )
