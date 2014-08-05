@@ -141,6 +141,7 @@ THIRD_PARTY_APPS = (
     #"allauth.socialaccount.providers.vk",
     "widget_tweaks",
     "gunicorn",
+    "debug_toolbar",
     )
 
 LOCAL_APPS = (
