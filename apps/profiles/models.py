@@ -15,3 +15,5 @@ class Profile(models.Model):
 
     def __str__(self):
         return u"%s %s" % (self.first_name, self.last_name)
+
+    

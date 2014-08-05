@@ -30,9 +30,3 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'orcha_00'
 
 EMAIL_HOST_PASSWORD = '9D3kIExyi5V'
-
-# there are only profile fields, not user
-ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
-    "is_merchant",
-    "related_profile",
-    )
