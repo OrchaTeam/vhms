@@ -116,6 +116,7 @@ DJANGO_APPS = (
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
+    "django.contrib.messages",
     )
 
 MEZZANINE_APPS = (

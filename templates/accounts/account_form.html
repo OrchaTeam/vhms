@@ -8,8 +8,6 @@
 {% endblock %}
 
 {% block page_content %}
-<!-- ВЫПИЛИТЬ -->
-<br><br><br><br><br><br>
 
 <!--error popup-->
 {% if form.non_field_errors %}
@@ -42,7 +40,7 @@
         <p>{% blocktrans with request.GET.next as next %}If you don't have an account you can <a href="{{ accounts_signup }}?next={{ next }}">sign up</a> for one now.{% endblocktrans %}</p> %} 
         {% endcomment %}
         {% url 'accounts_signup' as signup_url %}
-        <p>{% blocktrans %} If you don't have an account you can <a href="{{ signup_url }}">sign up</a> for one now. {%endblocktrans %}</p>
+        <p>{% blocktrans %} If you don't have an account you can <a href="{{ signup_url }}?next={{ next }}">sign up</a> for one now. {%endblocktrans %}</p>
         {% url 'accounts_reset' as reset_url %}
         <p>{% blocktrans %} <a href="{{ reset_url }}">Reset password?</a> {%endblocktrans %}</p>
         {% elif "Sign up" in title %}
@@ -51,7 +49,7 @@
         <p>{% blocktrans with request.GET.next as next %}If you have an account you can <a href="{{ accounts_login }}?next={{ next }}">sign in</a> for one now.{% endblocktrans %}</p>
         {% endcomment %}
         {% url 'accounts_login' as login_url %}
-        <p>{% blocktrans %} If you have an account you can <a href="{{ login_url }}">sign in</a> for one now. {% endblocktrans %}</p>
+        <p>{% blocktrans %} If you have an account you can <a href="{{ login_url }}?next={{ next }}">sign in</a> for one now. {% endblocktrans %}</p>
         {% endif %}
         <div class="submit-container">
             {% block account_form_actions %}
