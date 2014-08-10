@@ -38,15 +38,21 @@
         {% endfor %}
         {% if "Log in" in title %}
         {% comment %} 
+        {WORKAROUND: разобраться с этой хуйней}
         <p>{% blocktrans with request.GET.next as next %}If you don't have an account you can <a href="{{ accounts_signup }}?next={{ next }}">sign up</a> for one now.{% endblocktrans %}</p> %} 
         {% endcomment %}
-        <p>If you don't have an account you can <a href="{% url 'accounts_signup' %}">sign up</a> for one now.</p>
+        {% url 'accounts_signup' as signup_url %}
+        <p>{% blocktrans %} If you don't have an account you can <a href="{{ signup_url }}">sign up</a> for one now. {%endblocktrans %}</p>
+        {% url 'accounts_reset' as reset_url %}
+        <p>{% blocktrans %} <a href="{{ reset_url }}">Reset password?</a> {%endblocktrans %}</p>
         {% elif "Sign up" in title %}
         {% comment %}
+        {WORKAROUND: разобраться с этой хуйней}
         <p>{% blocktrans with request.GET.next as next %}If you have an account you can <a href="{{ accounts_login }}?next={{ next }}">sign in</a> for one now.{% endblocktrans %}</p>
         {% endcomment %}
-        <p>If you have an account you can <a href="{% url 'accounts_login' %}">sign in</a> for one now.</p>
-         {% endif %}
+        {% url 'accounts_login' as login_url %}
+        <p>{% blocktrans %} If you have an account you can <a href="{{ login_url }}">sign in</a> for one now. {% endblocktrans %}</p>
+        {% endif %}
         <div class="submit-container">
             {% block account_form_actions %}
             <input class="submit-button" type="submit" value="{{ title }}">
