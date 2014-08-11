@@ -1,13 +1,13 @@
 .site-container {
-    border-radius: 3px;
+    border-radius: 2px;
     width: 1050px;
-    margin: auto;
+    margin: 70px auto 0;
 }
 
 .nav-container {
     position: relative;
-    border-radius: 5px;
-    border: 2px solid;
+    border-radius: 3px;
+    border: 1px solid #999;
     margin: 0px 0px 15px;
     float: left;
     width: 250px;
@@ -19,13 +19,32 @@
 
 .profile-container {
     position: relative;
-    border-radius: 3px;
-    border: 2px solid;
+    border-radius: 2px;
+    border: 1px solid #999;
     margin: 0px 0px 15px;
+    padding: 0px 15px 15px; 
     float: right;
     width: 750px;
+    background-color: #fff;
 }
 
 .profile-container > h3 {
     font: 17px/1.4 Helvetica;
+}
+.profile-name {
+    margin: 0px;
+    padding: 5px 15px;
+}
+.nav-container > a {
+    text-align: left;
+    padding-left: 15px;
+}
+.nav-container > a.active {
+    border-right: 10px solid #428bca;
+}
+.profile-name img{
+    padding: 0px;
+}
+.profile-container > .profile-name {
+    margin: 0px -15px;
 }

@@ -5,30 +5,66 @@
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
 {% endblock %}
 
 {% block page_content %}
 
 <div class="site-container">
-    <div class="nav-container">
-        <h3>{{ profile_user }}</h3>
+
+    <div class="nav-container btn-group-vertical text-left panel-default">
+        <p class="profile-name panel-heading">
+            <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 15 %}" /></span>
+            <span class="h4">{{ profile_user }}</span>
+        </p>
+
+        <button class="btn btn-default active" type="button" ><span class="glyphicon glyphicon-user"></span>Profile</button>
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-cog"></span>Account Settings</button>
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-edit"></span>Blog settings</button>
+        <button class="btn btn-default" type="button"><span class=" glyphicon glyphicon-stats"></span>Statistic</button>
+
     </div>
-    <div class="profile-container">
-        <h3>Public Profile</h3>
+    <div class="profile-container panel-default">
+        <p class="profile-name panel-heading">
+            <span class="h4">Public Profile</span>
+        </p>
         <div class="row">
             <div class="profile-image col-md-3">
-                <img class="img-thumbnail" src="{% gravatar_url profile_user.email 128 %}">
+                <p>
+                    <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 128 %}" /></span>
+                    <span class="h4">{{ profile_user.get_full_name }}</span>
+                </p>
+
+
                 {% if profile_user == request.user %}
                     <br><a class="btn btn-primary" href="{% url 'profiles_update' %}">{% trans "Update profile" %}</a>
                 {% endif %}
             </div>
             <div class="profile-content col-md-9">
-                <h2>{{ profile_user.get_full_name }}</h2>
+                <form class="form-signin" role="form" method="post">
+               {% csrf_token %}
+        {% for field in form %}
+            {% if field.errors %}
+                 {% render_field field placeholder=field.label class+="form-control" %} 
+                <div style="float: right;">
+                    <h4>&times;</h4>
+                </div>
+            {% else %}
+               {% render_field field placeholder=field.label class+="form-control" %} 
+            {% endif %}
+        {% endfor %}
+        {% comment %}
+            {WORKAROUND: выпилить}
+        {% endcomment %}
+        {% comment %}
                 {% for field, value in profile_user|profile_fields %}
                 <h3>{{ field }}</h3>
                 <p>{{ value|linebreaksbr }}</p>
                 {% endfor %}
+        {% endcomment %}
+            </form>
             </div>
+
         </div>
     </div>
 </div>
