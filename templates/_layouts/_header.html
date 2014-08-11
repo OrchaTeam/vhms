@@ -3,6 +3,7 @@
 {% block page_css %}
 {%comment%}ticket67{%endcomment%}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 {% endblock page_css %}
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -18,7 +19,7 @@
             </ul>
             {% if user.is_authenticated %}
             <div>
-                <a class="navbar-brand" href="{% url 'profile' user.username %}">
+                <a class="navbar-brand" href="{% url 'profiles_update' %}">
                     <span class="label label-success">
                         {{ user.username }}
                     </span>

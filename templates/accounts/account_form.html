@@ -5,11 +5,10 @@
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/signin.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
 {% endblock %}
 
 {% block page_content %}
-<!-- ВЫПИЛИТЬ -->
-<br><br><br><br><br><br>
 
 <!--error popup-->
 {% if form.non_field_errors %}
@@ -22,18 +21,20 @@
 </div>
 {% endif %}
 
-<div class="form-container">
-    <div class="form-title"><h2>{{ title }}</h2></div>
-    <form method="post">
+<div class="container">
+
+        <form class="form-signin" role="form" method="post">
+            <p><img class="logo-md" src="{{ STATIC_URL }}img/logo.png" /></p>
+        {% comment %} <div class="form-signin-heading"><h2>{{ title }}</h2></div> {% endcomment %} 
         {% csrf_token %}
         {% for field in form %}
             {% if field.errors %}
-                <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-field" }}
+                 {% render_field field placeholder=field.label class+="form-control" %} 
                 <div style="float: right;">
                     <h4>&times;</h4>
                 </div>
             {% else %}
-                <span class="form-title">{{ field.label }}</span>{{ field|add_class:"form-field" }}
+               {% render_field field placeholder=field.label class+="form-control" %} 
             {% endif %}
         {% endfor %}
         {% if "Log in" in title %}
@@ -49,9 +50,10 @@
          {% endif %}
         <div class="submit-container">
             {% block account_form_actions %}
-            <input class="submit-button" type="submit" value="{{ title }}">
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="{{ title }}">
             {% endblock %}
         </div>
     </form>
+
 </div>
 {% endblock %}
