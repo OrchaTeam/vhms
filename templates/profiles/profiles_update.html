@@ -14,58 +14,53 @@
 
     <div class="nav-container btn-group-vertical text-left panel-default">
         <p class="profile-name panel-heading">
-            <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 15 %}" /></span>
-            <span class="h4">{{ profile_user }}</span>
+            <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
+            <span class="h4">{{ user.username }}</span>
         </p>
 
         <button class="btn btn-default active" type="button" ><span class="glyphicon glyphicon-user"></span>Profile</button>
-        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-cog"></span>Account Settings</button>
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-cog"></span><a href="{% url 'profiles_account' %}">Account Settings</a></button>
+        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-cog"></span>Account Settings</a>
         <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-edit"></span>Blog settings</button>
         <button class="btn btn-default" type="button"><span class=" glyphicon glyphicon-stats"></span>Statistic</button>
 
     </div>
+
+    
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
-            <span class="h4">Public Profile</span>
+            <span class="h4">Public Profile </span>
         </p>
-        <div class="row">
+        <div class="row panel-body">
             <div class="profile-image col-md-3">
                 <p>
-                    <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 128 %}" /></span>
-                    <span class="h4">{{ profile_user.get_full_name }}</span>
+                    <span><img class="img-thumbnail" src="{% gravatar_url user.email 150 %}" /></span>
+
+                    <br/><br/><input class="btn btn-primary btn-block" type="button" value="Upload foto">
                 </p>
+                <p></p>
 
 
-                {% if profile_user == request.user %}
-                    <br><a class="btn btn-primary" href="{% url 'profiles' %}">{% trans "Update profile" %}</a>
-                {% endif %}
+                
             </div>
-            <div class="profile-content col-md-9">
+            <div class="profile-content col-md-6 .col-md-offset-3">
                 <form class="form-signin" role="form" method="post">
-                    <input type="text" class="form-control"/>",{# "email", "username" #}
-                    {% render_field form.first_name placeholder=field.label class+="form-control" %} 
-                    {% render_field form.last_name placeholder=field.label class+="form-control" %} 
-                    {% render_field form.email placeholder=field.label class+="form-control" %} 
-               {% csrf_token %}
-        {% for field in form %}
-            {% if field.errors %}
-                 {% render_field field placeholder=field.label class+="form-control" %} 
-                <div style="float: right;">
-                    <h4>&times;</h4>
-                </div>
-            {% else %}
-               {% render_field field placeholder=field.label class+="form-control" %} 
-            {% endif %}
-        {% endfor %}
-{% comment %}
-                {% for field, value in profile_user|profile_fields %}
-                <h3>{{ field }}</h3>
-                <p>{{ value|linebreaksbr }}</p>
-                {% endfor %}{% endcomment %}
-            </form>
+                    {% csrf_token %}
+                    <p><label class="h5"><strong>First name</strong></label>
+                    {% render_field form.first_name placeholder=field.label class+="form-control" %} </p>
+                    <p><label class="h5"><strong>Last name</strong></label>
+                    {% render_field form.last_name placeholder=field.label class+="form-control" %}</p> 
+                    <p><label class="h5"><strong>Email</strong></label>
+                    {% render_field form.email placeholder=field.label class+="form-control" %}</p> 
+
+                   <p><input class="btn btn-primary" type="submit" value="Update profile"></p>
+                {#<br><a class="btn btn-primary" href="{% url 'profile' user.username %}">{% trans "Update profile" %}</a>#}
+                
+                </form>
             </div>
 
         </div>
     </div>
+    
 </div>
 {% endblock %}

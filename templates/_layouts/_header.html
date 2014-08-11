@@ -19,6 +19,11 @@
             </ul>
             {% if user.is_authenticated %}
             <div>
+                <a class="navbar-brand" href="{% url 'profile' user.username %}">
+                    <span class="label label-success">
+                        {{ user.username }}
+                    </span>
+                </a>
                 <a class="navbar-brand" href="{% url 'profiles_update' %}">
                     <span class="label label-success">
                         {{ user.username }}
