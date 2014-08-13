@@ -7,3 +7,23 @@ ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
     "related_profile",
     "profiletype",
     )
+
+VHMS_SIGNUP_USER_FIELDS = (
+    "username",
+    "email",
+    )
+
+VHMS_PROFILE_USER_FIELDS = (
+    "username",
+    "email",
+    )
+
+VHMS_SIGNUP_PROFILE_FIELDS = (
+    "first_name",
+    "last_name",
+    )
+
+VHMS_PROFILE_PROFILE_FIELDS = (
+    "first_name",
+    "last_name",
+    )
