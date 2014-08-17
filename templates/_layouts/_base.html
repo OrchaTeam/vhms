@@ -21,16 +21,15 @@
             {% comment %}
             {WORKAROUND: выпилить}
             {% endcomment %}
-            <br><br><br><br>
-            {% if messages %}
-                <div class="alert alert-info alert-dismissable form-signin-alert">
+            <br><br><br><br><br>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <strong>Как ответственные пидарасы, сообщаем:</strong>
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
+                    <p>{{ message }}</p>
                 </div>
-            {% endif %}
+            {% endfor %}
+                
             {% block page_content %}
             {% endblock %}
         </div>

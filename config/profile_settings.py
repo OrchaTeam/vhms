@@ -6,16 +6,8 @@ ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
     "is_merchant",
     "related_profile",
     "profiletype",
-    )
-
-VHMS_SIGNUP_USER_FIELDS = (
-    "username",
-    "email",
-    )
-
-VHMS_PROFILE_USER_FIELDS = (
-    "username",
-    "email",
+    "first_name",
+    "last_name",
     )
 
 VHMS_SIGNUP_PROFILE_FIELDS = (

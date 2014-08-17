@@ -9,14 +9,18 @@
 {% endblock %}
 
 {% block page_content %}
-
 <!--error popup-->
-{% if form.non_field_errors %}
-<div class="alert alert-warning alert-dismissable form-signin-alert">
+{% if form.errors or form.non_field_errors %}
+<div class="alert alert-warning form-signin-alert">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>Ошибка!</strong> Что-то пошло не так:
-    {% for element in form.non_field_errors %}
-        {{ form.non_field_errors }}
+    <strong>{% trans "Error" %}</strong>
+    {% for field in form %}
+        {% if field.errors %}
+        <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+        {% endif %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        {{ error }}
     {% endfor %}
 </div>
 {% endif %}
@@ -28,14 +32,7 @@
         {% comment %} <div class="form-signin-heading"><h2>{{ title }}</h2></div> {% endcomment %} 
         {% csrf_token %}
         {% for field in form %}
-            {% if field.errors %}
-                 {% render_field field placeholder=field.label class+="form-control" %} 
-                <div style="float: right;">
-                    <h4>&times;</h4>
-                </div>
-            {% else %}
-               {% render_field field placeholder=field.label class+="form-control" %} 
-            {% endif %}
+            {% render_field field placeholder=field.label class+="form-control" %} 
         {% endfor %}
         {% if "Log in" in title %}
         {% comment %} 
