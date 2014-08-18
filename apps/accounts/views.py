@@ -17,7 +17,7 @@ def password_change(request, template=None):
         else:
             pass
 
-    context = {"form": form, "title": _("Reset Password")}
+    context = {"form": form, "title": _("Update Password")}
     return render(request, template, context)
 
 def password_reset_verify(request, uidb36=None, token=None):

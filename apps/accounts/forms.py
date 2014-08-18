@@ -12,6 +12,8 @@ class VHMSPasswordChange(forms.ModelForm):
                                 widget=forms.PasswordInput(render_value=False))
     password2 = forms.CharField(label=_("Password (again)"),
                                 widget=forms.PasswordInput(render_value=False))
+    password1.widget.attrs["autocomplete"] = "off"
+    password2.widget.attrs["autocomplete"] = "off"
 
     class Meta:
         model = User
