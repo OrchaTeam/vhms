@@ -8,10 +8,11 @@ User = get_user_model()
 
 class VHMSPasswordChange(forms.ModelForm):
 
-    password1 = forms.CharField(label=_("Password"),
+    password1 = forms.CharField(label=_("New password"),
                                 widget=forms.PasswordInput(render_value=False))
-    password2 = forms.CharField(label=_("Password (again)"),
+    password2 = forms.CharField(label=_("New password (again)"),
                                 widget=forms.PasswordInput(render_value=False))
+    # {WORKAROUND: clear and replace to variables}
     password1.widget.attrs["autocomplete"] = "off"
     password2.widget.attrs["autocomplete"] = "off"
 
@@ -21,8 +22,17 @@ class VHMSPasswordChange(forms.ModelForm):
 
     def clean_password2(self):
 
+
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
+        """old_password = self.cleaned_data.get("old_password")
+        
+
+        if old_password:
+            if not self.user.check_password(old_password):
+                errors.append(_("Incorrect old password. "))
+            if errors:
+                self._errors["old_password"] = self.error_class(errors)"""
 
         if password1:
             errors = []
@@ -44,3 +54,8 @@ class VHMSPasswordChange(forms.ModelForm):
         if password:
             user.set_password(password)
         user.save()
+
+class VHMSExtendPasswordChange(VHMSPasswordChange):
+
+    old_password = forms.CharField(label=_("Old password"),
+                                widget=forms.PasswordInput(render_value=False))

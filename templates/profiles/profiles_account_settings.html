@@ -1,0 +1,32 @@
+{% extends "_layouts/_base.html" %}
+{% load i18n future widget_tweaks %}
+
+{% block page_title %}{{ profile_user|username_or:"get_full_name" }}{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
+{% endblock %}
+
+{% block page_content %}
+
+<div class="site-container">
+
+    <div class="nav-container btn-group-vertical text-left panel-default">
+        <p class="profile-name panel-heading">
+            <span class="h4"></span>
+        </p>
+
+        <button class="btn btn-default active" type="button" ><span class="glyphicon glyphicon-user"></span>Profile</button>
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-cog"></span>Account Settings</button>
+        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-edit"></span>Blog settings</button>
+        <button class="btn btn-default" type="button"><span class=" glyphicon glyphicon-stats"></span>Statistic</button>
+
+    </div>
+    <div class="profile-container panel-default">
+        <p class="profile-name panel-heading">
+            <span class="h4">Password Settings</span>
+        </p>
+    </div>
+</div>
+{% endblock %}

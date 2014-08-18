@@ -2,13 +2,24 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.contrib.messages import info, error
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse, NoReverseMatch
 
 from mezzanine.utils.views import render
 
-from .forms import VHMSPasswordChange
+from .forms import VHMSPasswordChange, VHMSExtendPasswordChange
 
 def password_change(request, template=None):
-    form = VHMSPasswordChange(data=request.POST or None, instance=request.user)
+
+    try:
+        account_settings_path = reverse("account_settings")
+        if request.path == account_settings_path:
+            form = VHMSExtendPasswordChange(data=request.POST or None, instance=request.user)
+            info(request, _(form))
+    except NoReverseMatch:
+        pass
+    finally:
+        form = VHMSPasswordChange(data=request.POST or None, instance=request.user)
+        
     if request.method == "POST":
         if form.is_valid():
             form.save()
