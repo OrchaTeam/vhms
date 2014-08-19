@@ -1,7 +1,7 @@
 {% extends "_layouts/_base.html" %}
-{% load i18n future widget_tweaks %}
+{% load i18n future mezzanine_tags accounts_tags widget_tweaks %}
 
-{% block page_title %}{{ profile_user|username_or:"get_full_name" }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css"/>
@@ -14,19 +14,41 @@
 
     <div class="nav-container btn-group-vertical text-left panel-default">
         <p class="profile-name panel-heading">
-            <span class="h4"></span>
+            <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
+            <span class="h4">{{ user.username }}</span>
         </p>
-
-        <button class="btn btn-default active" type="button" ><span class="glyphicon glyphicon-user"></span>Profile</button>
-        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-cog"></span>Account Settings</button>
-        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-edit"></span>Blog settings</button>
-        <button class="btn btn-default" type="button"><span class=" glyphicon glyphicon-stats"></span>Statistic</button>
-
+        <a class="btn btn-default" href="{% url 'profiles_update' %}">
+            <span class="glyphicon glyphicon-user"></span>
+            Profile
+        </a>
+        <a class="btn btn-default active" href="{% url 'account_settings' %}">
+            <span class="glyphicon glyphicon-cog"></span>
+            Account Settings
+        </a>
+        <a class="btn btn-default">
+            <span class="glyphicon glyphicon-edit"></span>
+            Blog settings
+        </a>
+        <a class="btn btn-default">
+            <span class=" glyphicon glyphicon-stats"></span>
+            Statistic
+        </a>
     </div>
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
             <span class="h4">Password Settings</span>
         </p>
+        <div class="row panel-body">
+            <div class="profile-content col-md-6 .col-md-offset-3">
+                <form class="form-signin" role="form" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% render_field field placeholder=field.label class+="form-control" %} </p>
+                    {% endfor %}
+                    <p><input class="btn btn-primary" type="submit" value="{% trans "Update Password" %}"></p>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

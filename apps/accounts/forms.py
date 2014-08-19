@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from django.conf import settings
 
 from mezzanine.utils.models import get_user_model
@@ -20,19 +20,15 @@ class VHMSPasswordChange(forms.ModelForm):
         model = User
         fields = ()
 
+    def __init__(self, *args, **kwargs):
+        super(VHMSPasswordChange, self).__init__(*args, **kwargs)
+        self.user = User.objects.get(id=self.instance.id)
+
     def clean_password2(self):
 
-
+        
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
-        """old_password = self.cleaned_data.get("old_password")
-        
-
-        if old_password:
-            if not self.user.check_password(old_password):
-                errors.append(_("Incorrect old password. "))
-            if errors:
-                self._errors["old_password"] = self.error_class(errors)"""
 
         if password1:
             errors = []
@@ -47,15 +43,21 @@ class VHMSPasswordChange(forms.ModelForm):
         return password2
 
     def save(self, *args, **kwargs):
-        kwargs["commit"] = False
-        user = super(VHMSPasswordChange, self).save(*args, **kwargs)
 
         password = self.cleaned_data.get("password1")
         if password:
-            user.set_password(password)
-        user.save()
+            self.user.set_password(password)
+        self.user.save()
 
 class VHMSExtendPasswordChange(VHMSPasswordChange):
 
-    old_password = forms.CharField(label=_("Old password"),
-                                widget=forms.PasswordInput(render_value=False))
+    old_password = forms.CharField(label=_("Old password"), widget=forms.PasswordInput(render_value=False))
+
+    def clean_old_password(self):
+        
+        old_password = self.cleaned_data.get("old_password")
+        if old_password:
+            if not self.user.check_password(old_password):
+                raise forms.ValidationError(
+                                ugettext("Old password is incorrect. "))
+        return old_password

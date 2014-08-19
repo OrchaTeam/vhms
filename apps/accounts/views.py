@@ -10,25 +10,23 @@ from .forms import VHMSPasswordChange, VHMSExtendPasswordChange
 
 def password_change(request, template=None):
 
+    form = VHMSPasswordChange(data=request.POST or None, instance=request.user)
+    title = _("Update Password")
     try:
-        account_settings_path = reverse("account_settings")
-        if request.path == account_settings_path:
-            form = VHMSExtendPasswordChange(data=request.POST or None, instance=request.user)
-            info(request, _(form))
+        if request.path == reverse("account_settings"):
+            form, account_settings = VHMSExtendPasswordChange(data=request.POST or None, instance=request.user), True
+            title = _("Account Settings")
     except NoReverseMatch:
-        pass
-    finally:
-        form = VHMSPasswordChange(data=request.POST or None, instance=request.user)
+        error(request, _("Internal Error. 0001"))
         
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
-            info(request, _("Password has been changed"))
-            return redirect("/")
-        else:
-            pass
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        info(request, _("Password has been changed"))
+        if account_settings:
+            return redirect(reverse("account_settings"))
+        return redirect("/")
 
-    context = {"form": form, "title": _("Update Password")}
+    context = {"form": form, "title": title}
     return render(request, template, context)
 
 def password_reset_verify(request, uidb36=None, token=None):
