@@ -1,7 +1,7 @@
 {% load url from future %}
 
 {% block page_css %}
-{%comment%}ticket67{%endcomment%}
+{% comment %}ticket67{% endcomment %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 {% endblock page_css %}
@@ -19,11 +19,6 @@
             </ul>
             {% if user.is_authenticated %}
             <div>
-                <a class="navbar-brand" href="{% url 'profile' user.username %}">
-                    <span class="label label-success">
-                        {{ user.username }}
-                    </span>
-                </a>
                 <a class="navbar-brand" href="{% url 'profiles_update' %}">
                     <span class="label label-success">
                         {{ user.username }}
