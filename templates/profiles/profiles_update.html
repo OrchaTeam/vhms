@@ -9,6 +9,21 @@
 
 {% block page_content %}
 
+<!--error popup-->
+{% if form.errors or form.non_field_errors %}
+<div class="alert alert-warning form-signin-alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>{% trans "Error" %}</strong>
+    {% for field in form %}
+        {% if field.errors %}
+        <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+        {% endif %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        {{ error }}
+    {% endfor %}
+</div>
+{% endif %}
 
 <div class="site-container">
 
@@ -25,6 +40,7 @@
         <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-edit"></span>Blog settings</a>
         <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-stats"></span>Statistic</a>
          {% endcomment %}
+
 
     </div>
 
