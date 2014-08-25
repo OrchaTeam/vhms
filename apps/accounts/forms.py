@@ -25,7 +25,6 @@ class VHMSPasswordChange(forms.ModelForm):
         self.user = User.objects.get(id=self.instance.id)
 
     def clean_password2(self):
-
         
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
@@ -51,7 +50,8 @@ class VHMSPasswordChange(forms.ModelForm):
 
 class VHMSExtendPasswordChange(VHMSPasswordChange):
 
-    old_password = forms.CharField(label=_("Old password"), widget=forms.PasswordInput(render_value=False))
+    old_password = forms.CharField(label=_("Old password"),
+        widget=forms.PasswordInput(render_value=False))
 
     def clean_old_password(self):
         
