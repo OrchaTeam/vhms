@@ -1,6 +1,19 @@
 {% load url from future %}
+{% load utils_tags i18n %}
 
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-user"></span>Profile</a>
-        <a class="btn btn-default active" href="{% url 'account_settings' %}"><span class="glyphicon glyphicon-cog"></span>Account Settings</a>
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-edit"></span>Blog settings</a>
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-stats"></span>Statistic</a>
+        <a class="btn btn-default {% active 'profiles_update' %}" href="{% url 'profiles_update' %}">
+            <span class="glyphicon glyphicon-user"/>
+            {% trans "Profile" %}
+        </a>
+        <a class="btn btn-default {% active 'account_settings' %}" href="{% url 'account_settings' %}">
+            <span class="glyphicon glyphicon-cog"></span>
+            {% trans "Account Settings" %}
+        </a>
+        <a class="btn btn-default" href="">
+            <span class="glyphicon glyphicon-edit"/>
+            {% trans "Blog settings" %}
+        </a>
+        <a class="btn btn-default" href="">
+            <span class="glyphicon glyphicon-stats"/>
+            {% trans "Statistic" %}
+        </a>
