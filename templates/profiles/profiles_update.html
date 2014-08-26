@@ -1,5 +1,5 @@
 {% extends "_layouts/_base.html" %}
-{% load i18n future mezzanine_tags accounts_tags widget_tweaks utils_tags %}
+{% load i18n future mezzanine_tags accounts_tags widget_tweaks %}
 
 {% block page_title %}{{ title }}{% endblock %}
 
@@ -27,25 +27,13 @@
 {% endif %}
 
 <div class="site-container">
-
     <div class="nav-container btn-group-vertical text-left panel-default">
         <p class="profile-name panel-heading">
             <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
             <span class="h4">{{ user.username }}</span>
         </p>
-
         {% include "_layouts/_nav.html" %}
-        {% comment %}
-        <a class="btn btn-default active" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-user"></span>Profile</a>
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-cog"></span>Account Settings</a>
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-edit"></span>Blog settings</a>
-        <a class="btn btn-default" href="{% url 'profiles_account' %}"><span class="glyphicon glyphicon-stats"></span>Statistic</a>
-         {% endcomment %}
-
-
     </div>
-
-    
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
             <span class="h4">Public Profile </span>
@@ -54,13 +42,9 @@
             <div class="profile-image col-md-3">
                 <p>
                     <span><img class="img-thumbnail" src="{% gravatar_url user.email 150 %}" /></span>
-
-                    <br/><br/><input class="btn btn-primary btn-block" type="button" value="Upload foto">
+                    <br/><br/><input class="btn btn-primary btn-block" type="button" value="{% trans 'Upload foto' %}">
                 </p>
                 <p></p>
-
-
-                
             </div>
             <div class="profile-content col-md-6 .col-md-offset-3">
                 <form class="form-signin" role="form" method="post">
@@ -74,8 +58,7 @@
                     <p><label class="h5"><strong>Email</strong></label>
                     {% render_field form.email placeholder=field.label class+="form-control" %}</p> 
 
-                   <p><input class="btn btn-primary" type="submit" value="Update profile"></p>
-                {#<br><a class="btn btn-primary" href="{% url 'profile' user.username %}">{% trans "Update profile" %}</a>#}
+                   <p><input class="btn btn-primary" type="submit" value="{{ title }}"></p>
                 
                 </form>
             </div>

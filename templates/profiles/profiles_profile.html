@@ -11,16 +11,6 @@
 {% block page_content %}
 
 <div class="site-container">
-
-    <div class="nav-container btn-group-vertical text-left panel-default">
-        <p class="profile-name panel-heading">
-            <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 15 %}" /></span>
-            <span class="h4">{{ profile_user }}</span>
-        </p>
-
-        {% include "_layouts/_nav.html" %}
-
-    </div>
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
             <span class="h4">Public Profile</span>
@@ -31,37 +21,18 @@
                     <span><img class="img-thumbnail" src="{% gravatar_url profile_user.email 128 %}" /></span>
                     <span class="h4">{{ profile_user.get_full_name }}</span>
                 </p>
-
-
                 {% if profile_user == request.user %}
-                    <br><a class="btn btn-primary" href="{% url 'profiles_update' %}">{% trans "Update profile" %}</a>
+
                 {% endif %}
             </div>
             <div class="profile-content col-md-9">
                 <form class="form-signin" role="form" method="post">
-               {% csrf_token %}
-        {% for field in form %}
-            {% if field.errors %}
-                 {% render_field field placeholder=field.label class+="form-control" %} 
-                <div style="float: right;">
-                    <h4>&times;</h4>
-                </div>
-            {% else %}
-               {% render_field field placeholder=field.label class+="form-control" %} 
-            {% endif %}
-        {% endfor %}
-        {% comment %}
-            {WORKAROUND: выпилить}
-        {% endcomment %}
-        {% comment %}
-                {% for field, value in profile_user|profile_fields %}
-                <h3>{{ field }}</h3>
-                <p>{{ value|linebreaksbr }}</p>
-                {% endfor %}
-        {% endcomment %}
-            </form>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% render_field field placeholder=field.label class+="form-control" %} 
+                    {% endfor %}
+                </form>
             </div>
-
         </div>
     </div>
 </div>

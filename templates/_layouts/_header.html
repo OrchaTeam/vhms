@@ -1,7 +1,7 @@
 {% load url from future %}
+{% load i18n %}
 
 {% block page_css %}
-{% comment %}ticket67{% endcomment %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
 {% endblock page_css %}
@@ -18,29 +18,29 @@
                 <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">Контакты</a></li>
             </ul>
             {% if user.is_authenticated %}
-            <div>
-                <a class="navbar-brand" href="{% url 'profiles_update' %}">
-                    <span class="label label-success">
-                        {{ user.username }}
-                    </span>
-                </a>
-            </div>
-            <form action="{% url 'accounts_logout' %}" class="navbar-form navbar-right">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Выход</button>
+                <div>
+                    <a class="navbar-brand" href="{% url 'profiles_update' %}">
+                        <span class="label label-info">
+                            {% trans "Profile" %}
+                        </span>
+                    </a>
                 </div>
-            </form>
+                <form action="{% url 'accounts_logout' %}" class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">{% trans "Sign out" %}</button>
+                    </div>
+                </form>
             {% else %}
-            <form  action="{% url 'accounts_signup' %}" class="navbar-form navbar-right">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Регистрация</button>
-                </div>
-            </form>
-            <form action="{% url 'accounts_login' %}" class="navbar-form navbar-right">
-                <div class="form-group">
-                    <button class="btn btn-primary">Войти</button>
-                </div>
-            </form>
+                <form  action="{% url 'accounts_signup' %}" class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">{% trans "Sign up" %}</button>
+                    </div>
+                </form>
+                <form action="{% url 'accounts_login' %}" class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <button class="btn btn-primary">{% trans "Sign in" %}</button>
+                    </div>
+                </form>
             {% endif %}
         </div>
     </div>
