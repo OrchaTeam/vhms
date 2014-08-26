@@ -148,6 +148,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     "apps.profiles",
     "apps.accounts",
+    "apps.utils",
     )
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -217,12 +218,12 @@ except ImportError:
 try:
     from config.account_settings import *
 except ImportError:
-    print ("Error. Allauth settings not found.")
+    pass
 
 try:
     from config.profile_settings import *
 except ImportError:
-    print ("Error. Profile settings not found.")
+    pass
 
 try:
     from mezzanine.utils.conf import set_dynamic_settings
