@@ -33,22 +33,7 @@
             <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
             <span class="h4">{{ user.username }}</span>
         </p>
-        <a class="btn btn-default {% active 'profiles_update' %}" href="{% url 'profiles_update' %}">
-            <span class="glyphicon glyphicon-user"></span>
-            Profile
-        </a>
-        <a class="btn btn-default {% active 'account_settings' %}" href="{% url 'account_settings' %}">
-            <span class="glyphicon glyphicon-cog"></span>
-            Account Settings
-        </a>
-        <a class="btn btn-default">
-            <span class="glyphicon glyphicon-edit"></span>
-            Blog settings
-        </a>
-        <a class="btn btn-default">
-            <span class=" glyphicon glyphicon-stats"></span>
-            Statistic
-        </a>
+        {% include "_layouts/_nav.html" %}
     </div>
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
