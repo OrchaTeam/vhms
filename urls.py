@@ -28,7 +28,7 @@ urlpatterns += patterns("",
 # Overall
 urlpatterns += patterns('',
     url("^$", direct_to_template, {"template": "index.html"}, name="home"),
-
+    url("^main/$", direct_to_template, {"template": "main.html"}, name="home"),
     ("^", include("mezzanine.urls")),
 
 )
