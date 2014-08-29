@@ -1,0 +1,112 @@
+{% extends "_layouts/_base.html" %}
+
+{% load url from future %}
+{% load widget_tweaks %}
+
+{% block page_css %}
+  {{ block.super }}
+   <link href="{{ STATIC_URL }}css/dashboard.css" rel="stylesheet">
+{% endblock page_css %}
+
+{% block page_content %}
+
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Магазин</a></li>
+            <li><a href="#">Статистика</a></li>
+            <li><a href="#">Профиль</a></li>
+            <li><a href="#">Написать письмо</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Галстуки</a></li>
+            <li><a href="">Юбки</a></li>
+            <li><a href="">Костюмы</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Добавить статью</a></li>
+            <li><a href="">Добавить товар</a></li>
+            <li><a href="">Редактировать магазин</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+          <h1 class="page-header">МАГАЗИН</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+              <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+          </div>
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Галстук</h4>
+              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+      <!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+
+
+{% endblock page_content %}
+
+{% block page_js %}
+{{ block.super }}
+<script type="text/javascript">
+
+</script>
+{% endblock page_js %}
