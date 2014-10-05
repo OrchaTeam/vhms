@@ -143,6 +143,7 @@ THIRD_PARTY_APPS = (
     "widget_tweaks",
     "gunicorn",
     "debug_toolbar",
+    "storages",
     )
 
 LOCAL_APPS = (
@@ -203,7 +204,6 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 # These will be added to ``INSTALLED_APPS``, only if available.
 OPTIONAL_APPS = (
-    "debug_toolbar",
     "django_extensions",
     "compressor",
     PACKAGE_NAME_FILEBROWSER,
@@ -222,6 +222,11 @@ except ImportError:
 
 try:
     from config.profile_settings import *
+except ImportError:
+    pass
+
+try:
+    from config.storages_settings import *
 except ImportError:
     pass
 
