@@ -18,4 +18,5 @@ VHMS_SIGNUP_PROFILE_FIELDS = (
 VHMS_PROFILE_PROFILE_FIELDS = (
     "first_name",
     "last_name",
+    "avatar",
     )
