@@ -1,3 +1,0 @@
-function welcome(){
-    $('#myModal').modal();
-};

@@ -20,7 +20,7 @@
             {% comment %}
             {WORKAROUND: выпилить}
             {% endcomment %}
-            <br><br><br><br><br>
+           
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -32,6 +32,8 @@
             {% block page_content %}
             {% endblock %}
         </div>
+            {% block page_under_content %}
+            {% endblock %}
     </div>
     <div id="footer">
         {% block page_footer %}

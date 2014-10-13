@@ -3,7 +3,12 @@
 {% load url from future %}
 {% load widget_tweaks %}
 
-{% block page_content %}
+{% block page_css %}
+  {{ block.super }}
+    <link href="{{ STATIC_URL }}css/carousel.css" rel="stylesheet">
+{% endblock page_css %}
+
+{% block page_under_content %}
 
 <div class="modal fade" id="myModal">
   <div class="modal-dialog">
@@ -24,12 +29,143 @@
 </div><!-- /.modal -->
 
 
-{% endblock page_content %}
+  <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="{{ STATIC_URL }}img/handmade1.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Добро пожаловать!</h1>
+              <p>Наш портал - это площадка с безграничными возможностями, на которой вы можете организовать магазин ручных поделок или купить у мастеров оригинальные вещи</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{{ STATIC_URL }}img/handmade2.jpg" alt="Second slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Огромный выбор</h1>
+              <p>Море оригинальных поделок от лучших мастеров</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <img src="{{ STATIC_URL }}img/handmade3.jpg" alt="Third slide">3
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Оригинальные подарки</h1>
+              <p>Поделки мастеров сделаны качественно и сдушой. Тут вы найдете оригинальные подарки для всех, и обязательно найдете что-то для себя!</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-4">
+          <img class="img-circle" src="http://cs1437.vk.me/u1924338/a_37094c68.jpg" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+          <h2>Евгений</h2>
+          <p>Главный джедай. И еще много полезной информации про себя любимого!</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img class="img-circle" src="http://cs9790.vk.me/u54613768/a_49ce7799.jpg" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+          <h2>Александр</h2>
+          <p>Джедай. И еще много полезной информации про себя любимого!</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img class="img-circle" src="http://cs616019.vk.me/v616019990/1963/FT4kYsTFwig.jpg" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+          <h2>Антон</h2>
+          <p>Джедай. И еще много полезной информации про себя любимого!</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+
+
+      <!-- START THE FEATURETTES -->
+
+      <hr class="featurette-divider"> 
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">У нас нет рекламы! <span class="text-muted">И это не может не радовать!</span></h2>
+          <p class="lead">Ничто не отвлекает вас посторонними мигающими картинками от просмотра интересных товаров! Вы более сосредоточены. Отсутсвие рекламы дает Порталу более эстетичный вид!</p>
+        </div>
+        <div class="col-md-5">
+           <img src="{{ STATIC_URL }}img/magnit.png" class="featurette-image img-responsive">
+         {#} <img class="featurette-image img-responsive"  data-src="holder.js/500x500/auto" src="{{ STATIC_URL }}img/magnit.jpg" alt="Generic placeholder image">{#}
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-5">
+          <img class="featurette-image img-responsive" src="{{ STATIC_URL }}img/light2.png" alt="Generic placeholder image">
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Продавать и покупать<span class="text-muted"> на нашем сайте легче легкого!</span></h2>
+          <p class="lead"> Интерфейс портала интуитивно понятный. Всегда можете включить режим подсказок или посмотреть обучающее видео. Специалисты нашей службы поддержки всегда рады вам помочь.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Надежность! <span class="text-muted"> Мы обеспечиваем вам гарантию получения денег или покупки! </span></h2>
+          <p class="lead">Используя наш ресурс вы обезопасите себя от возможного мошейничества. Мы сопровождаем зделку от и до. На нашем сайте только проверенные продавцы с качестенными поделками!</p>
+        </div>
+        <div class="col-md-5">
+          <img class="featurette-image img-responsive" src="{{ STATIC_URL }}img/garantee.png" alt="Generic placeholder image">
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+
+
+{% endblock page_under_content %}
 
 {% block page_js %}
+{{ block.super }}
 <script type="text/javascript">
     $(document).ready(function(){
-       $('#myModal').modal();
+    //   $('#myModal').modal();
     });
 </script>
 {% endblock page_js %}
