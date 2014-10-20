@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.contrib.messages import info, error
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse, NoReverseMatch
+from django.core.urlresolvers import reverse
 
 from mezzanine.utils.views import render
 
@@ -12,12 +12,11 @@ def password_change(request, template=None):
 
     form = VHMSPasswordChange(data=request.POST or None, instance=request.user)
     title = _("Update Password")
-    try:
-        if request.path == reverse("account_settings"):
-            form, account_settings = VHMSExtendPasswordChange(data=request.POST or None, instance=request.user), True
-            title = _("Account Settings")
-    except NoReverseMatch:
-        error(request, _("Internal Error. 0001"))
+    account_settings = False
+    
+    if request.path == reverse("account_settings"):
+        form, account_settings = VHMSExtendPasswordChange(data=request.POST or None, instance=request.user), True
+        title = _("Account Settings")
         
     if request.method == "POST" and form.is_valid():
         form.save()

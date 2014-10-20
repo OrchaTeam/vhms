@@ -1,6 +1,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+import os
+from django.utils.timezone import now
+
+def upload_avatar_to(instance, filename):
+    filename_base, filename_ext = os.path.splitext(filename)
+    return 'profiles/%s%s' % (now().strftime("%Y%m%d%H%M%S"),filename_ext.lower(),)
 
 class Profile(models.Model):
 
@@ -10,6 +16,7 @@ class Profile(models.Model):
     related_profile = models.ForeignKey("Profile", null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     profiletype = models.CharField(verbose_name=_("Profile Type"), max_length=2)
+    avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to, blank=True)
 
     class Meta:
         verbose_name = _("Profile")
@@ -18,7 +25,7 @@ class Profile(models.Model):
         return u"%s %s" % (self.first_name, self.last_name)
 
     def save(self, *args, **kwargs):
-        # 1 - for local profile, 2 - for social accounts. this is mock. {WORKAROUND: убрать статическую переменную}
+        # 1 - for local profile, 2 - for social accounts. mock. {WORKAROUND: убрать статическую переменную}
         self.profiletype = 1
         super(Profile, self).save(*args, **kwargs)
     

@@ -143,6 +143,7 @@ THIRD_PARTY_APPS = (
     "widget_tweaks",
     "gunicorn",
     "debug_toolbar",
+    "storages",
     )
 
 LOCAL_APPS = (
@@ -152,12 +153,6 @@ LOCAL_APPS = (
     )
 
 INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
-# Customize for gunicorn
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-}
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -203,7 +198,6 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 # These will be added to ``INSTALLED_APPS``, only if available.
 OPTIONAL_APPS = (
-    "debug_toolbar",
     "django_extensions",
     "compressor",
     PACKAGE_NAME_FILEBROWSER,
@@ -222,6 +216,11 @@ except ImportError:
 
 try:
     from config.profile_settings import *
+except ImportError:
+    pass
+
+try:
+    from config.storages_settings import *
 except ImportError:
     pass
 

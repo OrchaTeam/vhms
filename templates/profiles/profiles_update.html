@@ -39,30 +39,32 @@
             <span class="h4">Public Profile </span>
         </p>
         <div class="row panel-body">
-            <div class="profile-image col-md-3">
-                <p>
-                    <span><img class="img-thumbnail" src="{% gravatar_url user.email 150 %}" /></span>
-                    <br/><br/><input class="btn btn-primary btn-block" type="button" value="{% trans 'Upload foto' %}">
-                </p>
-                <p></p>
-            </div>
-            <div class="profile-content col-md-6 .col-md-offset-3">
-                <form class="form-signin" role="form" method="post">
-                    {% csrf_token %}
-                    <p><label class="h5"><strong>Username</strong></label>
-                    {% render_field form.username placeholder=field.label class+="form-control" %} </p>
-                    <p><label class="h5"><strong>First name</strong></label>
-                    {% render_field form.first_name placeholder=field.label class+="form-control" %} </p>
-                    <p><label class="h5"><strong>Last name</strong></label>
-                    {% render_field form.last_name placeholder=field.label class+="form-control" %}</p> 
-                    <p><label class="h5"><strong>Email</strong></label>
-                    {% render_field form.email placeholder=field.label class+="form-control" %}</p> 
+            <form class="form-signin" role="form" method="post" enctype="multipart/form-data">
+                <div class="profile-image col-md-3">
+                    <p>
+                        <img src="{{ form.avatar.avatar.url }}" />
+                        {{ form.avatar }}
+                        <br/><br/>
+                        
 
-                   <p><input class="btn btn-primary" type="submit" value="{{ title }}"></p>
-                
-                </form>
-            </div>
 
+                        {% comment %} {% render_field form.avatar %} {% endcomment %}
+                    </p>
+                </div>
+                <div class="profile-content col-md-6 .col-md-offset-3">
+                        {% csrf_token %}
+                        <!-- {WORKAROUND: clear static label} -->
+                        <p><label class="h5"><strong>Username</strong></label>
+                        {% render_field form.username placeholder=field.label class+="form-control" %} </p>
+                        <p><label class="h5"><strong>First name</strong></label>
+                        {% render_field form.first_name placeholder=field.label class+="form-control" %} </p>
+                        <p><label class="h5"><strong>Last name</strong></label>
+                        {% render_field form.last_name placeholder=field.label class+="form-control" %}</p> 
+                        <p><label class="h5"><strong>Email</strong></label>
+                        {% render_field form.email placeholder=field.label class+="form-control" %}</p>
+                        <p><input class="btn btn-primary" type="submit" value="{{ title }}"></p>
+                </div>
+            </form>
         </div>
     </div>
     
