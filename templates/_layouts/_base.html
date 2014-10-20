@@ -1,3 +1,4 @@
+{% load i18n mezzanine_tags widget_tweaks %}
 <!doctype html>
 <html>
 <head>
@@ -14,19 +15,26 @@
 <body>
     <header>
         {% include "_layouts/_header.html" %}
+    <style type="text/css"> 
+        #alertModal {
+            top: 20%;
+        }
+    </style>
     </header>
     <div id="content">
-        <div class="container">
-            {% comment %}
-            {WORKAROUND: выпилить}
-            {% endcomment %}
-           
+        <div class="container">         
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Как ответственные пидарасы, сообщаем:</strong>
-                    <p>{{ message }}</p>
-                </div>
+                <div class="modal fade" id="alertModal">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content ">
+                        <div class="modal-body">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <p class="modal-title h3 text-{{ message.tags }}">{% trans "Dear User!" %}</p>
+                            <p class="h4 text-{{ message.tags }}">{{ message }}</p>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
             {% endfor %}
                 
             {% block page_content %}
@@ -46,4 +54,9 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
 <script src="{{ STATIC_URL }}js/scripts.js"></script>
+{% for message in messages %}
+    <script type="text/javascript"> 
+        $('#alertModal').modal();
+    </script>
+{% endfor %}
 {% endblock page_js %}

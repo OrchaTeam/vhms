@@ -5,7 +5,9 @@
 
 {% block page_css %}
   {{ block.super }}
-   <link href="{{ STATIC_URL }}css/dashboard.css" rel="stylesheet">
+   <link href="{{ STATIC_URL }}css/dashboard.css" rel="stylesheet" type="text/css"  />
+   <link href="{{ STATIC_URL }}css/component.css" rel="stylesheet" type="text/css"  />
+   <script src="{{ STATIC_URL }}js/modernizr.custom.js"></script>
 {% endblock page_css %}
 
 {% block page_content %}
@@ -16,75 +18,145 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Магазин</a></li>
-            <li><a href="#">Статистика</a></li>
-            <li><a href="#">Профиль</a></li>
-            <li><a href="#">Написать письмо</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Галстуки</a></li>
-            <li><a href="">Юбки</a></li>
-            <li><a href="">Костюмы</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Добавить статью</a></li>
-            <li><a href="">Добавить товар</a></li>
-            <li><a href="">Редактировать магазин</a></li>
-          </ul>
+            <li class="active h4"><a href="#">Магазин</a></li>
+            <li><ul class="nav">
+              <li><a href="#"><span class="glyphicon glyphicon-stats"></span>Статистика</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span>Профиль</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-send"></span>Написать письмо</a></li>
+            </ul></li>
+           <li class="active h4"><a href="#">Товары</a></li>
+            <li><ul class="nav">
+              <li><a href="">Галстуки</a></li>
+              <li><a href="">Юбки</a></li>
+              <li><a href="">Костюмы</a></li>
+            </ul></li>
+             <li class="active h4"><a href="#">Действия</a></li>
+          <li><ul class="nav ">
+            <li><a href=""><span class="glyphicon glyphicon-plus"></span>Добавить статью</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-plus"></span>Добавить товар</a></li>
+            <li><a href=""><span class="glyphicon glyphicon-edit"></span>Редактировать магазин</a></li>
+          </ul></li>
+        </ul>
         </div>
         <div class="col-sm-9 col-md-10 main">
           <h1 class="page-header">МАГАЗИН</h1>
+          <div>
+            <a class="h6">Тапочки</a> 
+            <a class="h1">Галстуки</a> 
+            <a class="h3">Игрушки</a> 
+            <a class="h2">ХУИ</a>
+            <a class="h5">yt{eb</a>
+            <a class="h3">Вещи</a><br>
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-              <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
-            </div>
+            <a class="h2">Цветы</a>
+            <a class="h2">Игры</a>
+            <a class="h1">Ног</a>
+            <a class="h4">РУКИ</a>
+            <a class="h5">Блокноты</a>
+            <a class="h2">ОДЕЖДА</a>
           </div>
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+          <div class="placeholders grid cs-style-1" >
+            
+            {% comment %}
+
+            {for item in user.items}
+            <div class="  placeholder">
+              <figure>
+                <img src="item.img class="img-responsive">
+                <a href="item.href"><figcaption>
+                  <h4>{item.name}</h4>
+                  <span class="text-muted">{item.description}</span>
+                </figcaption></a>
+              </figure>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            {% endcomment %}
+
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption id = "1">
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил! Я еще много чего могу сделать только купите что-нибудь</span>
+                </figcaption>
+              </figure>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption id = "2">
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                </figcaption>
+              </figure>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img  src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Галстук</h4>
-              <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
-               <a href="#" class="btn btn-primary">Купить за: <span>500</span> р.</a>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption id = "3">
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                  
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                  
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                  
+                </figcaption>
+              </figure>
+            </div>
+            <div class="  placeholder">
+              <figure>
+                <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+                <figcaption>
+                  <h4>Галстук</h4>
+                  <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+                  
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
@@ -99,14 +171,43 @@
 
     </div><!-- /.container -->
 
-
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Галстук №</h4>
+          </div>
+          <div class="modal-body">
+            <img src="{{ STATIC_URL }}img/bow-tie.jpg" class="img-responsive" alt="Generic placeholder thumbnail">
+            <p>One fine body&hellip;</p>
+             <span class="text-muted">Смотрите какой клевй галстук-бабочку я сам смастерил!</span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">КУпить</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
 {% endblock page_content %}
 
 {% block page_js %}
 {{ block.super }}
+<script src="{{ STATIC_URL }}js/toucheffects.js"></script>
 <script type="text/javascript">
-
+ $("figcaption").click(function(e){
+  getModal(this.id);
+ });
+ // $("figcaption").each(
+ //   $(this).on("click", getModal(this.id));
+ //     );
+  function getModal(id){
+    $("#myModal .modal-title").html("Галстук № "+id);
+    $("#myModal").modal();
+        console.log(id);
+  }
 </script>
 {% endblock page_js %}
