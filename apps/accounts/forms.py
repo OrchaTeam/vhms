@@ -9,12 +9,13 @@ User = get_user_model()
 class VHMSPasswordChange(forms.ModelForm):
 
     password1 = forms.CharField(label=_("New password"),
-                                widget=forms.PasswordInput(render_value=False))
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
     password2 = forms.CharField(label=_("New password (again)"),
-                                widget=forms.PasswordInput(render_value=False))
-    # {WORKAROUND: clear and replace to variables}
-    password1.widget.attrs["autocomplete"] = "off"
-    password2.widget.attrs["autocomplete"] = "off"
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
 
     class Meta:
         model = User
@@ -25,7 +26,7 @@ class VHMSPasswordChange(forms.ModelForm):
         self.user = User.objects.get(id=self.instance.id)
 
     def clean_password2(self):
-        
+
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
 
@@ -51,7 +52,8 @@ class VHMSPasswordChange(forms.ModelForm):
 class VHMSExtendPasswordChange(VHMSPasswordChange):
 
     old_password = forms.CharField(label=_("Old password"),
-        widget=forms.PasswordInput(render_value=False))
+        widget=forms.PasswordInput(
+        render_value=False))
 
     def clean_old_password(self):
         

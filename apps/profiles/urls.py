@@ -1,13 +1,12 @@
 from django.conf.urls import patterns, url
-from mezzanine.accounts import views
+from mezzanine.accounts import views as mezzanine
 
 from apps.accounts.views import password_change
 
 urlpatterns = patterns('',
-    url(r'^profile/view/(?P<username>.*)/$', views.profile, 
+    url(r'^profile/view/(?P<username>.*)/$', mezzanine.profile,
         {'template': 'profiles/profiles_profile.html'}, name="profile"),
-    url(r'^profile/update/$', views.profile_update, 
+    url(r'^profile/update/$', mezzanine.profile_update,
         {'template': 'profiles/profiles_update.html'}, name="profiles_update"),
-    url(r'^profile/settings/$', password_change, 
-        {'template': 'profiles/profiles_account_settings.html'}, name="account_settings"),
+    url(r'^profile/settings/$', password_change, name="account_settings"),
 )

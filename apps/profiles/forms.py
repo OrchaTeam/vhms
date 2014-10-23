@@ -7,6 +7,10 @@ from mezzanine.accounts import get_profile_model
 Profile = get_profile_model()
 
 class VHMSSignupFormProfileFields(forms.ModelForm):
+    """
+    It identifies a list of fields are indicated in settings
+    for Profile form.
+    """
 
     class Meta:
         model = Profile
@@ -14,12 +18,19 @@ class VHMSSignupFormProfileFields(forms.ModelForm):
 
 
 class VHMSProfileFormProfileFields(forms.ModelForm):
+    """
+    It identifies a list of fields are indicated in settings
+    for Signup form.
+    """
 
     class Meta:
         model = Profile
         fields = tuple(settings.VHMS_PROFILE_PROFILE_FIELDS)
 
 class VHMSProfileForm(ProfileForm):
+    """
+    It generates Profile form for signup or profile view.
+    """
 
     def __init__(self, *args, **kwargs):
         super(VHMSProfileForm, self).__init__(*args, **kwargs)
