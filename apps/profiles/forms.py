@@ -43,7 +43,6 @@ class VHMSProfileForm(ProfileForm):
 
         if not self._signup:
             # profile form
-            #self.get_avatar()
             if "email" in self.fields:
                 self.fields["email"].widget.attrs['readonly'] = True
         else:
@@ -55,5 +54,3 @@ class VHMSProfileForm(ProfileForm):
             return VHMSProfileFormProfileFields
         else:
             return VHMSSignupFormProfileFields
-
-    #def get_avatar(self):
