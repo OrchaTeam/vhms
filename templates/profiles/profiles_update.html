@@ -1,5 +1,5 @@
 {% extends "_layouts/_base.html" %}
-{% load i18n future mezzanine_tags accounts_tags widget_tweaks %}
+{% load i18n future mezzanine_tags accounts_tags widget_tweaks utils_tags %}
 {% load static from staticfiles %}
 
 {% block page_title %}{{ title }}{% endblock %}
@@ -33,6 +33,7 @@
             <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
             <span class="h4">{{ user.username }}</span>
         </p>
+        <!-- {WORKAROUND: replace to extend} -->
         {% include "_layouts/_nav.html" %}
     </div>
     <div class="profile-container panel-default">
@@ -43,13 +44,9 @@
             <form class="form-signin" role="form" method="post" enctype="multipart/form-data">
                 <div class="profile-image col-md-3">
                     <p>
-                        <!-- {WORKAROUND: replace to custom tag profile } -->
-                        {% if form.avatar.value == "" %}
-                            <img src="{% static "img/default-avatar.jpeg" %}" alt="{{ form.avatar.name }}"/>
-                        {% else %}
-                            <img src="{{ MEDIA_URL }}{{ form.avatar.value }}" alt="{{ form.avatar.name }}"/>
-                        {% endif %}
-                        <br/>
+                        <!-- {WORKAROUND: replace templatetag avatar} -->
+                        <img src="{% avatar form.avatar.value %}" />
+                        </br>
                         <input id="id_avatar" type="file" name="avatar"/>
                     </p>
                 </div>
