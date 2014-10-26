@@ -11,7 +11,7 @@
 
 {% block page_content %}
 
-<!-- {WORKAROUND: replace to extend} -->
+<!-- {WORKAROUND: replace to _base} -->
 <!--error popup-->
 {% if form.errors or form.non_field_errors %}
 <div class="alert alert-warning form-signin-alert">
@@ -34,7 +34,7 @@
             <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
             <span class="h4">{{ user.username }}</span>
         </p>
-        <!-- {WORKAROUND: replace to extend} -->
+        <!-- {WORKAROUND: replace to extend tag} -->
         {% include "_layouts/_nav.html" %}
     </div>
     <div class="profile-container panel-default">
