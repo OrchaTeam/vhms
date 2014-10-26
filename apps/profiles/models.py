@@ -28,4 +28,3 @@ class Profile(models.Model):
         # 1 - for local profile, 2 - for social accounts. mock. {WORKAROUND: убрать статическую переменную}
         self.profiletype = 1
         super(Profile, self).save(*args, **kwargs)
-    

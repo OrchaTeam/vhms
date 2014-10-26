@@ -89,9 +89,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "assets"),
 )
 
-MEDIA_URL = STATIC_URL + "media/"
-
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '../..', 'media')
 
 ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 
