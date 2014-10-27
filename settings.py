@@ -89,7 +89,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "assets"),
 )
 
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, '../..', 'media')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, '../..',  'media')
 
 ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 
@@ -99,7 +99,7 @@ FIXTURE_DIRS = (
     os.path.join(PROJECT_ROOT, "fixtures"),
 )
 
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = 'media/media-admin/'
 
 ################
 # APPLICATIONS #
@@ -142,6 +142,7 @@ THIRD_PARTY_APPS = (
     "gunicorn",
     "debug_toolbar",
     "storages",
+    'easy_thumbnails',
     )
 
 LOCAL_APPS = (

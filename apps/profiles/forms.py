@@ -1,12 +1,12 @@
 from django.conf import settings
-from django import forms
+from django.forms import ModelForm
 
 from mezzanine.accounts.forms import ProfileForm
 from mezzanine.accounts import get_profile_model
 
 Profile = get_profile_model()
 
-class VHMSSignupFormProfileFields(forms.ModelForm):
+class VHMSSignupFormProfileFields(ModelForm):
     """
     It identifies a list of fields are indicated in settings
     for Profile form.
@@ -17,7 +17,7 @@ class VHMSSignupFormProfileFields(forms.ModelForm):
         fields = tuple(settings.VHMS_SIGNUP_PROFILE_FIELDS)
 
 
-class VHMSProfileFormProfileFields(forms.ModelForm):
+class VHMSProfileFormProfileFields(ModelForm):
     """
     It identifies a list of fields are indicated in settings
     for Signup form.
