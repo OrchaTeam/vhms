@@ -25,6 +25,6 @@ class Profile(models.Model):
         return u"%s %s" % (self.first_name, self.last_name)
 
     def save(self, *args, **kwargs):
-        # 1 - for local profile, 2 - for social accounts. mock. {WORKAROUND: убрать статическую переменную}
+        # 1 - for local profile, 2 - for social accounts. mock. { WORKAROUND: убрать статическую переменную}
         self.profiletype = 1
         super(Profile, self).save(*args, **kwargs)

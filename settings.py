@@ -197,8 +197,6 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 # These will be added to ``INSTALLED_APPS``, only if available.
 OPTIONAL_APPS = (
-    "django_extensions",
-    "compressor",
     PACKAGE_NAME_FILEBROWSER,
     PACKAGE_NAME_GRAPPELLI,
 )
@@ -225,7 +223,7 @@ except ImportError:
 
 try:
     from mezzanine.utils.conf import set_dynamic_settings
+    set_dynamic_settings(globals())
 except ImportError:
     pass
-else:
-    set_dynamic_settings(globals())
+
