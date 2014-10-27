@@ -142,7 +142,6 @@ THIRD_PARTY_APPS = (
     "gunicorn",
     "debug_toolbar",
     "storages",
-    'easy_thumbnails',
     )
 
 LOCAL_APPS = (
