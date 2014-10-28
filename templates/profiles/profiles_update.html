@@ -1,11 +1,12 @@
-{% extends "_layouts/_base.html" %}
+
+{% extends "_layouts/_nav.html" %}
 {% load i18n future mezzanine_tags accounts_tags widget_tweaks %}
 
 {% block page_title %}{{ title }}{% endblock %}
 
 {% block page_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/profile.css"/>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap1.css"/>
 {% endblock %}
 
 {% block page_content %}
@@ -32,7 +33,8 @@
             <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
             <span class="h4">{{ user.username }}</span>
         </p>
-        {% include "_layouts/_nav.html" %}
+
+
     </div>
     <div class="profile-container panel-default">
         <p class="profile-name panel-heading">
@@ -42,10 +44,10 @@
             <form class="form-signin" role="form" method="post" enctype="multipart/form-data">
                 <div class="profile-image col-md-3">
                     <p>
-                        <img src="{{ form.avatar.avatar.url }}" />
-                        {{ form.avatar }}
+                        <img src="{{ form.avatar.url }}" />
+                        {{ form.avatar}}
                         <br/><br/>
-                        
+                       
 
 
                         {% comment %} {% render_field form.avatar %} {% endcomment %}

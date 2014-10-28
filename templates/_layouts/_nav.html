@@ -1,6 +1,7 @@
+{% extends "_layouts/_base.html" %}
 {% load url from future %}
 {% load utils_tags i18n %}
-
+     {% block page_nav %}
         <a class="btn btn-default {% active 'profiles_update' %}" href="{% url 'profiles_update' %}">
             <span class="glyphicon glyphicon-user"/>
             {% trans "Profile" %}
@@ -17,3 +18,4 @@
             <span class="glyphicon glyphicon-stats"/>
             {% trans "Statistic" %}
         </a>
+    {% endblock page_nav %}

@@ -4,8 +4,8 @@
 <head>
     {% block page_css %}
     <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.png">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap1.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jasny-bootstrap.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
     {% endblock page_css %}
     <title>
@@ -21,8 +21,8 @@
         }
     </style>
     </header>
-    <div id="content">
-        <div class="container">         
+ <!--   <div id="content">
+        <div class="container">     -->    
             {% for message in messages %}
                 <div class="modal fade" id="alertModal">
                   <div class="modal-dialog modal-sm">
@@ -38,8 +38,10 @@
             {% endfor %}
                 
             {% block page_content %}
+                {% block page_nav %}
+                {% endblock %}
             {% endblock %}
-        </div>
+       <!-- </div> -->
             {% block page_under_content %}
             {% endblock %}
     </div>
