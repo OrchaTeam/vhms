@@ -1,11 +1,13 @@
+{% load i18n mezzanine_tags widget_tweaks %}
+{% load static from staticfiles %}
 <!doctype html>
 <html>
 <head>
     {% block page_css %}
-    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.png">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
+    <link rel="shortcut icon" href="{% static "ico/favicon.png" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/alert-blackgloss.css" %}"/>
     {% endblock page_css %}
     <title>
         {% block page_title %}{% endblock %} - Virtual Hand Made Shop
@@ -15,24 +17,17 @@
     <header>
         {% include "_layouts/_header.html" %}
     </header>
+<!-- 
     <div id="content">
         <div class="container">
-            <!-- {WORKAROUND: выпилить} -->
-
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Как ответственные пидарасы, сообщаем:</strong>
-                    <p>{{ message }}</p>
-                </div>
-            {% endfor %}
-                
+            {WORKAROUND: выпилить} -->
+            <div class='notifications top-right blackgloss'></div> 
             {% block page_content %}
             {% endblock %}
-        </div>
+       <!-- </div> -->
             {% block page_under_content %}
             {% endblock %}
-    </div>
+    <!--/div-->
     <div id="footer">
         {% block page_footer %}
         {% endblock %}
@@ -42,6 +37,46 @@
 
 {% block page_js %}
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="{{ STATIC_URL }}js/bootstrap.js"></script>
-<script src="{{ STATIC_URL }}js/scripts.js"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/bootstrap-notify.js" %}"></script>
+<script src="{% static "js/scripts.js" %}"></script>
+{% for message in messages %}
+    <script type="text/javascript"> 
+        //$('#alertModal').modal();
+        $('.top-right').notify({
+            closable: false,
+            message: { 
+                html: '<p>{{ message }}</p>',
+                text: '{{ message }}' 
+            },
+            type: 'info'
+        }).show();
+    </script>
+{% endfor %}
+<script type="text/javascript"> 
+{% if form.errors or form.non_field_errors %}
+    {% for field in form %}
+            {% if field.errors %}
+
+        $('.top-right').notify({
+            closable: false,
+            message: { 
+                html: '<strong>{% trans "Error" %} </strong><p>{{ field.label }}: {{ field.errors|striptags }}</p>',
+                text: '<p>{{ field.label }}: {{ field.errors|striptags }}</p>' },
+            type: 'info'
+        }).show();
+    
+            {% endif %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            
+        $('.top-right').notify({
+            closable: false,
+            message: { 
+                text: '{{ error }}' },
+            type: 'info'
+        }).show();
+        {% endfor %}    
+{% endif %}
+ </script>
 {% endblock page_js %}

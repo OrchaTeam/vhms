@@ -1,9 +1,10 @@
 {% load url from future %}
 {% load i18n %}
+{% load static from staticfiles %}
 
 {% block page_css %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css"/>
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
 {% endblock page_css %}
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -13,7 +14,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{%comment%}{% url 'smartproject:home' %}{%endcomment%}">Домой</a></li>
+                <li><a href="/main">Домой</a></li>
                 <li><a href="{%comment%}{% url 'smartproject:about' %}{%endcomment%}">О проекте</a></li>
                 <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">Контакты</a></li>
             </ul>
