@@ -18,8 +18,8 @@
 <div class="site-container">
     <div class="nav-container btn-group-vertical text-left panel-default">
         <p class="profile-name panel-heading">
-         {#   {% thumbnail form.avatar 32x32 upscale as thumb %} #}
-            <span><img class="img-thumbnail" src="{{ thumb.value }}"/></span>
+
+            <span><img class="img-thumbnail" src="{% avatar form.avatar.value %}" height="16px" width="16px"/></span>
             <span class="h4">{{ user.username }}</span>
         </p>
         <!-- {WORKAROUND: replace to extend tag} -->
@@ -35,8 +35,7 @@
                 <div class="profile-image col-md-3">
                     <p>
                         <!-- {WORKAROUND: replace templatetag avatar} -->
-                        <img src=" {{ form.avatar.url }}" />
-
+                        <img src=" {%  avatar form.avatar.value %}" />
                         </br>
                         <input id="id_avatar" type="file" name="avatar"/>
                     </p>
