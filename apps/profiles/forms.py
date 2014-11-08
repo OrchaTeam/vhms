@@ -1,12 +1,16 @@
 from django.conf import settings
-from django.forms import ModelForm
+from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 from mezzanine.accounts.forms import ProfileForm
 from mezzanine.accounts import get_profile_model
 
+User = get_user_model()
 Profile = get_profile_model()
 
-class VHMSSignupFormProfileFields(ModelForm):
+class VHMSSignupFormProfileFields(forms.ModelForm):
     """
     It identifies a list of fields are indicated in settings
     for Profile form.
@@ -17,7 +21,7 @@ class VHMSSignupFormProfileFields(ModelForm):
         fields = tuple(settings.VHMS_SIGNUP_PROFILE_FIELDS)
 
 
-class VHMSProfileFormProfileFields(ModelForm):
+class VHMSProfileFormProfileFields(forms.ModelForm):
     """
     It identifies a list of fields are indicated in settings
     for Signup form.
@@ -54,3 +58,106 @@ class VHMSProfileForm(ProfileForm):
             return VHMSProfileFormProfileFields
         else:
             return VHMSSignupFormProfileFields
+
+class VHMSUserBaseForm(forms.ModelForm):
+    """
+
+    """
+
+    class Meta:
+        model = User
+        fields = ("username", "email",)
+
+    def __init__(self, *args, **kwargs):
+        super(VHMSUserBaseForm, self).__init__(*args, **kwargs)
+        if self.fields["username"]:
+            self.fields["username"].label = "Username"
+        if self.fields["email"]:
+            self.fields["email"].label = "Email"
+
+
+    def clean_username(self):
+        """
+
+        """
+
+        username = self.cleaned_data.get("username")
+        USERNAME_REGEX = UserCreationForm().fields['username'].regex
+        if not USERNAME_REGEX.match(username):
+            raise forms.ValidationError(_("Usernames can only contain "
+                                          "letters, digits and @/./+/-/_."))
+
+        if username in settings.USERNAME_BLACKLIST:
+            raise forms.ValidationError(_("Username can not be used. "
+                                          "Please use other username."))
+
+        try:
+            query = {'username__iexact': username}
+            User.objects.get(**query)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(_("This username is already taken. Please "
+                                      "choose another."))
+
+    def clean_email(self):
+        """
+
+        """
+        email = self.cleaned_data["email"]
+        qs = User.objects.filter(email=email)
+        if len(qs) == 0:
+            return email
+        raise forms.ValidationError(_("This email is already registered"))
+
+class VHMSUserSignupForm(VHMSUserBaseForm):
+    """
+
+    """
+
+    password1 = forms.CharField(label=_("Password"),
+        required=False,
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
+    password2 = forms.CharField(label=_("Password (again)"),
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
+
+    def __init__(self, *args, **kwargs):
+        super(VHMSUserSignupForm, self).__init__(*args, **kwargs)
+        self.fields["username"].required = True
+        self.fields["email"].required = True
+
+
+    def clean_password2(self):
+
+        password1 = self.cleaned_data["password1"]
+        password2 = self.cleaned_data["password2"]
+
+        if password1:
+            errors = []
+            if password1 != password2:
+                errors.append(_("Passwords do not match. "))
+            if len(password1) < settings.ACCOUNTS_MIN_PASSWORD_LENGTH:
+                errors.append(
+                        _("Password must be at least %s characters. ") %
+                        settings.ACCOUNTS_MIN_PASSWORD_LENGTH)
+            if errors:
+                self._errors["password1"] = self.error_class(errors)
+        return password2
+
+    def save(self, *args, **kwargs):
+
+
+        kwargs["commit"] = False
+        user = super(VHMSUserSignupForm, self).save(*args, **kwargs)
+        username = self.cleaned_data["username"]
+        email = self.cleaned_data["email"]
+        user.is_active = False
+        if 'password1' in self.cleaned_data:
+            user.set_password(self.cleaned_data["password1"])
+        else:
+             raise forms.ValidationError(_("POSHEL NAXUY"))
+        #user.save()
+        return user

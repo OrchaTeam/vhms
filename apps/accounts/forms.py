@@ -23,7 +23,8 @@ class VHMSPasswordChange(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VHMSPasswordChange, self).__init__(*args, **kwargs)
-        self.user = User.objects.get(id=self.instance.id)
+        if self.instance.id:
+            self.user = User.objects.get(id=self.instance.id)
 
     def clean_password2(self):
 
@@ -63,3 +64,9 @@ class VHMSExtendPasswordChange(VHMSPasswordChange):
                 raise forms.ValidationError(
                                 ugettext("Old password is incorrect. "))
         return old_password
+
+class SignupForm(VHMSPasswordChange):
+
+     class Meta:
+        model = User
+        fields = ('username','email',)
