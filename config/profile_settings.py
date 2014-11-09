@@ -21,12 +21,13 @@ VHMS_PROFILE_PROFILE_FIELDS = (
     "avatar",
     )
 
-#Используется в VHMSUserBaseForm
-USERNAME_BLACKLIST = ("huy",
-
+# VHMSUserBaseForm
+USER_BLACKLIST = (
+    "huy",
 )
 
-#Используется в VHMSUserSignupForm
-ACCOUNTS_MIN_PASSWORD_LENGTH = 6
+# VHMSUserSignupForm
+USER_MIN_PASSWORD_LENGTH = 6
 
-ACCOUNTS_APPROVAL_REQUIRED = True
+# VHMSUserSignupView
+USER_VERIFICATION_REQUIRED = True

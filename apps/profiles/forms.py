@@ -7,7 +7,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from mezzanine.accounts.forms import ProfileForm
 from mezzanine.accounts import get_profile_model
 
-User = get_user_model()
+
 Profile = get_profile_model()
 
 class VHMSSignupFormProfileFields(forms.ModelForm):
@@ -59,6 +59,9 @@ class VHMSProfileForm(ProfileForm):
         else:
             return VHMSSignupFormProfileFields
 
+# новое поколение форм
+User = get_user_model()
+
 class VHMSUserBaseForm(forms.ModelForm):
     """
 
@@ -87,7 +90,7 @@ class VHMSUserBaseForm(forms.ModelForm):
             raise forms.ValidationError(_("Usernames can only contain "
                                           "letters, digits and @/./+/-/_."))
 
-        if username in settings.USERNAME_BLACKLIST:
+        if username in settings.USER_BLACKLIST:
             raise forms.ValidationError(_("Username can not be used. "
                                           "Please use other username."))
 
@@ -139,25 +142,81 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
             errors = []
             if password1 != password2:
                 errors.append(_("Passwords do not match. "))
-            if len(password1) < settings.ACCOUNTS_MIN_PASSWORD_LENGTH:
+            if len(password1) < settings.USER_MIN_PASSWORD_LENGTH:
                 errors.append(
                         _("Password must be at least %s characters. ") %
-                        settings.ACCOUNTS_MIN_PASSWORD_LENGTH)
+                        settings.USER_MIN_PASSWORD_LENGTH)
             if errors:
                 self._errors["password1"] = self.error_class(errors)
         return password2
 
     def save(self, *args, **kwargs):
 
-
         kwargs["commit"] = False
         user = super(VHMSUserSignupForm, self).save(*args, **kwargs)
-        username = self.cleaned_data["username"]
-        email = self.cleaned_data["email"]
         user.is_active = False
         if 'password1' in self.cleaned_data:
             user.set_password(self.cleaned_data["password1"])
         else:
-             raise forms.ValidationError(_("POSHEL NAXUY"))
-        #user.save()
+             raise forms.ValidationError(_("Internal error. Please, try again later."))
+        user.save()
         return user
+
+class VHMSPasswordChange(forms.ModelForm):
+
+    password1 = forms.CharField(label=_("New password"),
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
+    password2 = forms.CharField(label=_("New password (again)"),
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
+
+    class Meta:
+        model = User
+        fields = ()
+
+    def __init__(self, *args, **kwargs):
+        super(VHMSPasswordChange, self).__init__(*args, **kwargs)
+        if self.instance.id:
+            self.user = User.objects.get(id=self.instance.id)
+
+    def clean_password2(self):
+
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if password1:
+            errors = []
+            if password1 != password2:
+                errors.append(_("Passwords do not match. "))
+            if len(password1) < settings.USER_MIN_PASSWORD_LENGTH:
+                errors.append(
+                        _("Password must be at least %s characters. ") %
+                        settings.USER_MIN_PASSWORD_LENGTH)
+            if errors:
+                self._errors["password1"] = self.error_class(errors)
+        return password2
+
+    def save(self, *args, **kwargs):
+
+        password = self.cleaned_data.get("password1")
+        if password:
+            self.user.set_password(password)
+        self.user.save()
+
+class VHMSExtendPasswordChange(VHMSPasswordChange):
+
+    old_password = forms.CharField(label=_("Old password"),
+        widget=forms.PasswordInput(
+        render_value=False))
+
+    def clean_old_password(self):
+
+        old_password = self.cleaned_data.get("old_password")
+        if old_password:
+            if not self.user.check_password(old_password):
+                raise forms.ValidationError(
+                                ugettext("Old password is incorrect. "))
+        return old_password
