@@ -6,10 +6,10 @@ from django.views.generic.base import View, RedirectView
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from mezzanine.utils.views import render
 from mezzanine.utils.email import send_verification_mail
 from mezzanine.utils.urls import next_url, login_redirect
 
+from apps.utils.views import render
 from apps.profiles import forms
 
 
