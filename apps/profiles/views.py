@@ -6,11 +6,10 @@ from django.views.generic.base import View, RedirectView
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from mezzanine.utils.email import send_verification_mail
-from mezzanine.utils.urls import next_url, login_redirect
-
+from apps.utils.email import send_verification_mail
 from apps.utils.views import render
 from apps.profiles import forms
+from apps.utils.urls import next_url, login_redirect
 
 
 class VHMSUserSignupView(View):

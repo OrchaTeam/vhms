@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-import os
+from os.path import splitext
 from django.utils.timezone import now
 
 def upload_avatar_to(instance, filename):
-    filename_base, filename_ext = os.path.splitext(filename)
+    filename_base, filename_ext = splitext(filename)
     return 'profiles/%s%s' % (now().strftime("%Y%m%d%H%M%S"),filename_ext.lower(),)
 
 class Profile(models.Model):

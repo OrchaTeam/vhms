@@ -3,10 +3,11 @@ from django.utils.http import int_to_base36
 from django.contrib.auth.tokens import default_token_generator
 from django.template import loader, Context
 from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
-from mezzanine.utils.urls import next_url
+from apps.utils.urls import next_url
+
 from mezzanine.conf.context_processors import settings as context_settings
-from mezzanine.conf import settings
 
 def subject_template(template, context):
     """

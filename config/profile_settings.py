@@ -21,6 +21,17 @@ VHMS_PROFILE_PROFILE_FIELDS = (
     "avatar",
     )
 
+# replaced from account_settings
+LOGIN_URL = '/accounts/login/'
+
+# replaced from account_settings
+LOGOUT_URL = '/accounts/logout/'
+
+SIGNUP_URL = '/accounts/signup/'
+
+# replaced from account_settings
+LOGIN_REDIRECT_URL = '/'
+
 # VHMSUserBaseForm
 USER_BLACKLIST = (
     "huy",
