@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
+from django.contrib.auth import authenticate
 
 from mezzanine.accounts.forms import ProfileForm
 from mezzanine.accounts import get_profile_model
@@ -220,3 +221,35 @@ class VHMSExtendPasswordChange(VHMSPasswordChange):
                 raise forms.ValidationError(
                                 ugettext("Old password is incorrect. "))
         return old_password
+
+class VHMSUserLoginForm(forms.Form):
+    """
+
+    """
+
+    username = forms.CharField(label=_("Username or Email"))
+    password = forms.CharField(label=_("Password"),
+        required=False,
+        widget=forms.PasswordInput(
+        render_value=False,
+        attrs={'autocomplete': 'off;'}))
+
+    def clean(self):
+        """
+
+        """
+        username = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
+        self._user = authenticate(username=username, password=password)
+        if self._user is None:
+            raise forms.ValidationError(
+                             _("Invalid username/email and password"))
+        elif not self._user.is_active:
+            raise forms.ValidationError(_("Your account is inactive"))
+        return self.cleaned_data
+
+    def save(self):
+        """
+
+        """
+        return getattr(self, "_user", None)
