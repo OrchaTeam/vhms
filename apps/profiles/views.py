@@ -91,21 +91,6 @@ class VHMSUserPasswordVerifyRedirectView(RedirectView):
                 return reverse('home')
 
 
-def signup_verify(request, uidb36=None, token=None):
-    """
-
-    """
-    user = authenticate(uidb36=uidb36, token=token, is_active=False)
-    if user is not None:
-        user.is_active = True
-        user.save()
-        login(request, user)
-        info(request, _("Successfully signed up"))
-        return login_redirect(request)
-    else:
-        error(request, _("The link you clicked is no longer valid."))
-        return redirect("/")
-
 class VHMSUserLoginView(View):
     """
 
@@ -126,6 +111,24 @@ class VHMSUserLoginView(View):
             return login_redirect(request)
         context = {"form": form, "title": _("Sign in")}
         return render(request, self.template_name, context)
+
+
+def signup_verify(request, uidb36=None, token=None):
+    """
+
+    """
+    user = authenticate(uidb36=uidb36, token=token, is_active=False)
+    if user is not None:
+        user.is_active = True
+        user.save()
+        login(request, user)
+        info(request, _("Successfully signed up"))
+        return login_redirect(request)
+    else:
+        error(request, _("The link you clicked is no longer valid."))
+        return redirect("/")
+
+
 
 
 signup = VHMSUserSignupView.as_view()

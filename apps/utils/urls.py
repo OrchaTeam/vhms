@@ -21,7 +21,7 @@ def login_redirect(request):
     - homepage
     """
 
-    ignorable_nexts = (settings.SIGNUP_URL, settings.LOGIN_URL, settings.LOGOUT_URL)
+    ignorable_nexts = ("", settings.SIGNUP_URL, settings.LOGIN_URL, settings.LOGOUT_URL)
     next = next_url(request) or ""
     if next in ignorable_nexts:
         next = settings.LOGIN_REDIRECT_URL

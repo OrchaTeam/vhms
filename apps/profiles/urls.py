@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r"^accounts/login/$", signin, name="accounts_login"),
     url(r"^accounts/signup/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
         signup_verify, name="signup_verify"),
-    url(r"^accounts/password/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$", password_reset_verify, name="password_reset_verify"),
+    url(r"^accounts/password/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
+        password_reset_verify, name="password_reset_verify"),
     url(r"^accounts/password/change/$", password_change, name="password_change"),
 )

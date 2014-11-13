@@ -113,20 +113,21 @@ class VHMSUserBaseForm(forms.ModelForm):
             return email
         raise forms.ValidationError(_("This email is already registered"))
 
+
 class VHMSUserSignupForm(VHMSUserBaseForm):
     """
 
     """
 
     password1 = forms.CharField(label=_("Password"),
-        required=False,
+        required=True,
         widget=forms.PasswordInput(
-        render_value=False,
-        attrs={'autocomplete': 'off;'}))
+            render_value=False,
+            attrs={'autocomplete': 'off;'}))
     password2 = forms.CharField(label=_("Password (again)"),
         widget=forms.PasswordInput(
-        render_value=False,
-        attrs={'autocomplete': 'off;'}))
+            render_value=False,
+            attrs={'autocomplete': 'off;'}))
 
     def __init__(self, *args, **kwargs):
         super(VHMSUserSignupForm, self).__init__(*args, **kwargs)
@@ -163,16 +164,17 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
         user.save()
         return user
 
+
 class VHMSPasswordChange(forms.ModelForm):
 
     password1 = forms.CharField(label=_("New password"),
         widget=forms.PasswordInput(
-        render_value=False,
-        attrs={'autocomplete': 'off;'}))
+            render_value=False,
+            attrs={'autocomplete': 'off;'}))
     password2 = forms.CharField(label=_("New password (again)"),
         widget=forms.PasswordInput(
-        render_value=False,
-        attrs={'autocomplete': 'off;'}))
+            render_value=False,
+            attrs={'autocomplete': 'off;'}))
 
     class Meta:
         model = User
@@ -207,11 +209,12 @@ class VHMSPasswordChange(forms.ModelForm):
             self.user.set_password(password)
         self.user.save()
 
+
 class VHMSExtendPasswordChange(VHMSPasswordChange):
 
     old_password = forms.CharField(label=_("Old password"),
         widget=forms.PasswordInput(
-        render_value=False))
+            render_value=False))
 
     def clean_old_password(self):
 
@@ -222,6 +225,7 @@ class VHMSExtendPasswordChange(VHMSPasswordChange):
                                 ugettext("Old password is incorrect. "))
         return old_password
 
+
 class VHMSUserLoginForm(forms.Form):
     """
 
@@ -229,10 +233,10 @@ class VHMSUserLoginForm(forms.Form):
 
     username = forms.CharField(label=_("Username or Email"))
     password = forms.CharField(label=_("Password"),
-        required=False,
+        required=True,
         widget=forms.PasswordInput(
-        render_value=False,
-        attrs={'autocomplete': 'off;'}))
+            render_value=False,
+            attrs={'autocomplete': 'off;'}))
 
     def clean(self):
         """
