@@ -7,6 +7,7 @@ from django.conf import settings
 
 from apps.utils.urls import next_url
 
+# {WORKAROUND: delete dependencies}
 from mezzanine.conf.context_processors import settings as context_settings
 
 def subject_template(template, context):
