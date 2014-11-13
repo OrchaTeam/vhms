@@ -107,7 +107,29 @@ def signup_verify(request, uidb36=None, token=None):
         error(request, _("The link you clicked is no longer valid."))
         return redirect("/")
 
+class VHMSUserLoginView(View):
+    """
+
+    """
+    template_name = "accounts/account_signup.html"
+
+    def get(self, request):
+        form = forms.VHMSUserLoginForm()
+        context = {"form": form, "title": _("Sign in")}
+        return render(request, self.template_name, context)
+
+    def post(self,request):
+        form = forms.VHMSUserLoginForm(request.POST or None)
+        if request.method == "POST" and form.is_valid():
+            authenticated_user = form.save()
+            info(request, _("Successfully logged in"))
+            login(request, authenticated_user)
+            return login_redirect(request)
+        context = {"form": form, "title": _("Sign in")}
+        return render(request, self.template_name, context)
+
 
 signup = VHMSUserSignupView.as_view()
+signin = VHMSUserLoginView.as_view()
 password_change = VHMSUserPasswordChangeView.as_view()
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()
