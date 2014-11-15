@@ -1,10 +1,10 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.messages import info, error
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import View, RedirectView
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, get_script_prefix
 
 from apps.utils.email import send_verification_mail
 from apps.utils.views import render
@@ -112,6 +112,14 @@ class VHMSUserLoginView(View):
         context = {"form": form, "title": _("Sign in")}
         return render(request, self.template_name, context)
 
+class VHMSUserLogout(View):
+    def get(self,request):
+        """
+        Log the user out.
+        """
+        logout(request)
+        info(request, _("Successfully logged out"))
+        return redirect(next_url(request) or get_script_prefix())
 
 def signup_verify(request, uidb36=None, token=None):
     """
@@ -133,5 +141,6 @@ def signup_verify(request, uidb36=None, token=None):
 
 signup = VHMSUserSignupView.as_view()
 signin = VHMSUserLoginView.as_view()
+signout = VHMSUserLogout.as_view()
 password_change = VHMSUserPasswordChangeView.as_view()
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()

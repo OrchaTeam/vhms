@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from mezzanine.accounts import views as mezzanine
 
-from apps.profiles.views import signup, signup_verify, password_change, password_reset_verify, signin
+from apps.profiles.views import signup, signup_verify, password_change, password_reset_verify, signin, signout
 
 urlpatterns = patterns('',
     url(r'^profile/view/(?P<username>.*)/$', mezzanine.profile,
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     # переопределенные вьюхи, формы и урлы
     url(r"^accounts/signup/$", signup, name="accounts_signup"),
     url(r"^accounts/login/$", signin, name="accounts_login"),
+    url(r"^accounts/logout/$", signout, name="accounts_logout"),
     url(r"^accounts/signup/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
         signup_verify, name="signup_verify"),
     url(r"^accounts/password/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
