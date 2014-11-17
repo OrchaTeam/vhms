@@ -10,6 +10,7 @@ from apps.utils.urls import next_url
 # {WORKAROUND: delete dependencies}
 from mezzanine.conf.context_processors import settings as context_settings
 
+
 def subject_template(template, context):
     """
     It was transferred from Mezzanine 3.1.9
@@ -19,6 +20,7 @@ def subject_template(template, context):
 
     subject = loader.get_template(template).render(Context(context))
     return " ".join(subject.splitlines()).strip()
+
 
 def send_mail_template(subject, template, addr_from, addr_to, context=None,
                        attachments=None, fail_silently=None, addr_bcc=None,
@@ -57,6 +59,7 @@ def send_mail_template(subject, template, addr_from, addr_to, context=None,
     for attachment in attachments:
         msg.attach(*attachment)
     msg.send(fail_silently=fail_silently)
+
 
 def send_verification_mail(request, user, verification_type):
     """

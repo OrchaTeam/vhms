@@ -5,62 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth import authenticate
 
-from mezzanine.accounts.forms import ProfileForm
-from mezzanine.accounts import get_profile_model
+from .models import Profile
 
-
-Profile = get_profile_model()
-
-class VHMSSignupFormProfileFields(forms.ModelForm):
-    """
-    It identifies a list of fields are indicated in settings
-    for Profile form.
-    """
-
-    class Meta:
-        model = Profile
-        fields = tuple(settings.VHMS_SIGNUP_PROFILE_FIELDS)
-
-
-class VHMSProfileFormProfileFields(forms.ModelForm):
-    """
-    It identifies a list of fields are indicated in settings
-    for Signup form.
-    """
-
-    class Meta:
-        model = Profile
-        fields = tuple(settings.VHMS_PROFILE_PROFILE_FIELDS)
-
-class VHMSProfileForm(ProfileForm):
-    """
-    It generates Profile form for signup or profile view.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(VHMSProfileForm, self).__init__(*args, **kwargs)
-        self._signup = self.instance.id is None
-
-        #update profile fields
-        profile_fields_form = self.get_profile_fields_form()
-        profile_fields = profile_fields_form().fields
-        self.fields.update(profile_fields)
-
-        if not self._signup:
-            # profile form
-            if "email" in self.fields:
-                self.fields["email"].widget.attrs['readonly'] = True
-        else:
-            # signup form
-            pass
-
-    def get_profile_fields_form(self):
-        if not self._signup:
-            return VHMSProfileFormProfileFields
-        else:
-            return VHMSSignupFormProfileFields
-
-# новое поколение форм
 User = get_user_model()
 
 class VHMSUserBaseForm(forms.ModelForm):
@@ -70,7 +16,7 @@ class VHMSUserBaseForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "email",)
+        fields = ("username", "email", )
 
     def __init__(self, *args, **kwargs):
         super(VHMSUserBaseForm, self).__init__(*args, **kwargs)
@@ -165,7 +111,7 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
         return user
 
 
-class VHMSPasswordChange(forms.ModelForm):
+class VHMSUserPasswordChangeForm(forms.ModelForm):
 
     password1 = forms.CharField(label=_("New password"),
         widget=forms.PasswordInput(
@@ -181,7 +127,7 @@ class VHMSPasswordChange(forms.ModelForm):
         fields = ()
 
     def __init__(self, *args, **kwargs):
-        super(VHMSPasswordChange, self).__init__(*args, **kwargs)
+        super(VHMSUserPasswordChangeForm, self).__init__(*args, **kwargs)
         if self.instance.id:
             self.user = User.objects.get(id=self.instance.id)
 
@@ -210,7 +156,7 @@ class VHMSPasswordChange(forms.ModelForm):
         self.user.save()
 
 
-class VHMSExtendPasswordChange(VHMSPasswordChange):
+class VHMSExtendUserPasswordChangeForm(VHMSUserPasswordChangeForm):
 
     old_password = forms.CharField(label=_("Old password"),
         widget=forms.PasswordInput(
@@ -257,3 +203,24 @@ class VHMSUserLoginForm(forms.Form):
 
         """
         return getattr(self, "_user", None)
+
+
+class VHMSProfileForm(forms.ModelForm):
+    """
+
+    """
+
+    class Meta:
+        model = Profile
+        fields = ("first_name", "last_name", )
+
+    def __init__(self, *args, **kwargs):
+        super(VHMSProfileForm, self).__init__(*args, **kwargs)
+        self.fields["first_name"].required = True
+        self.fields["last_name"].required = True
+
+    def save(self, *args, **kwargs):
+        pass
+
+    def clean(self):
+        pass

@@ -1,10 +1,11 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.messages import info, error
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic.base import View, RedirectView
+from django.views.generic.base import View, RedirectView, TemplateView
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, get_script_prefix
+from django.template import TemplateDoesNotExist
 
 from apps.utils.email import send_verification_mail
 from apps.utils.views import render
@@ -63,12 +64,12 @@ class VHMSUserPasswordChangeView(View):
 
     def init_form(self, request):
         if request.path == reverse("account_settings"):
-            self.form = forms.VHMSExtendPasswordChange(data=request.POST or None, instance=request.user)
+            self.form = forms.VHMSExtendUserPasswordChangeForm(data=request.POST or None, instance=request.user)
             return {'title': _("Account Settings"),
                     'redirect_link': "account_settings",
                     'template': "profiles/profiles_account_settings.html"}
         else:
-            self.form = forms.VHMSPasswordChange(data=request.POST or None, instance=request.user)
+            self.form = forms.VHMSUserPasswordChangeForm(data=request.POST or None, instance=request.user)
             return {'title': _("Update Password"),
                     'redirect_link': "home",
                     'template': "accounts/account_password_change.html"}
@@ -113,6 +114,33 @@ class VHMSUserLoginView(View):
         return render(request, self.template_name, context)
 
 
+class VHMSUserLogoutView(View):
+    """
+
+    """
+
+    def get(self,request):
+        logout(request)
+        info(request, _("Successfully logged out"))
+        return redirect(next_url(request) or get_script_prefix())
+
+
+class VHMSProfileView(TemplateView):
+    """
+
+    """
+
+    def get(self, request, *args, **kwargs):
+        try:
+            template_name = self.kwargs['template']
+            form = forms.VHMSProfileForm()
+            context = {"form": form, "title": _("Sign in")}
+            return render(request, template_name, context)
+        except TemplateDoesNotExist:
+            error(request, _("Internal error. Try again later, please."))
+            return redirect("/")
+
+
 def signup_verify(request, uidb36=None, token=None):
     """
 
@@ -129,9 +157,9 @@ def signup_verify(request, uidb36=None, token=None):
         return redirect("/")
 
 
-
-
 signup = VHMSUserSignupView.as_view()
 signin = VHMSUserLoginView.as_view()
+signout = VHMSUserLogoutView.as_view()
 password_change = VHMSUserPasswordChangeView.as_view()
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()
+profile = VHMSProfileView.as_view()

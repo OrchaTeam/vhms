@@ -12,6 +12,7 @@ def active(context, view):
     """
     return utils.VHMSActiveMenu(context['request'], view).is_active
 
+
 @register.simple_tag(takes_context=False, name='avatar')
 def avatar(value, size=None):
     """
