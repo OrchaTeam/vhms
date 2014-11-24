@@ -11,6 +11,8 @@ from apps.utils.email import send_verification_mail
 from apps.utils.views import render
 from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 class VHMSUserSignupView(View):
@@ -131,14 +133,35 @@ class VHMSProfileView(TemplateView):
     """
 
     def get(self, request, *args, **kwargs):
-        try:
-            template_name = self.kwargs['template']
-            form = forms.VHMSProfileForm()
-            context = {"form": form, "title": _("Sign in")}
+        template_name = self.get_template(request, **kwargs)
+        if template_name:
+            form = forms.VHMSProfileForm(instance=request.user)
+            context = {"form": form, "title": _("Update Profile")}
             return render(request, template_name, context)
-        except TemplateDoesNotExist:
+        else:
+            redirect("/")
+
+    def post(self, request, *args, **kwargs):
+        template_name = self.get_template(request, **kwargs)
+        if template_name:
+            form = forms.VHMSProfileForm(request.POST,
+                                         request.FILES,
+                                         instance=request.user)
+            context = {"form": form, "title": _("Update Profile")}
+            return render(request, template_name, context)
+        else:
+            redirect("/")
+
+    def get_template(self, request, **kwargs):
+        try:
+            return self.kwargs['template']
+        except:
             error(request, _("Internal error. Try again later, please."))
-            return redirect("/")
+            return ""
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VHMSProfileView, self).dispatch(*args, **kwargs)
 
 
 def signup_verify(request, uidb36=None, token=None):

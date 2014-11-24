@@ -211,16 +211,34 @@ class VHMSProfileForm(forms.ModelForm):
     """
 
     class Meta:
-        model = Profile
-        fields = ("first_name", "last_name", )
+        model = User
+        fields = ()
 
     def __init__(self, *args, **kwargs):
         super(VHMSProfileForm, self).__init__(*args, **kwargs)
-        self.fields["first_name"].required = True
-        self.fields["last_name"].required = True
+
+        profile_fields_form = self.get_profile_fields()
+        profile_fields = profile_fields_form().fields
+        self.fields.update(profile_fields)
+        for field in self.fields:
+            self.fields[field].required = True
+
 
     def save(self, *args, **kwargs):
         pass
 
     def clean(self):
         pass
+
+    def get_profile_fields(self):
+        return VHMSProfileFieldsForm
+
+
+class VHMSProfileFieldsForm(forms.ModelForm):
+    """
+
+    """
+
+    class Meta:
+        model = Profile
+        fields = ("first_name", "last_name")

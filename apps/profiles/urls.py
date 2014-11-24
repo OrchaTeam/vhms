@@ -4,13 +4,9 @@ from mezzanine.accounts import views as mezzanine
 from apps.profiles import views as profiles
 
 urlpatterns = patterns('',
-    url(r'^profile/view/(?P<username>.*)/$',
-        profiles.profile,
-        {'template': 'profiles/profiles_profile.html'},
-        name="profile_view"),
     url(r'^profile/update/$',
-        mezzanine.profile_update,
-        {'template': 'profiles/profiles_update.html'},
+        profiles.profile,
+        {'template': "profiles/profiles_update.html"},
         name="profile_update"),
     url(r'^profile/settings/$',
         profiles.password_change, name="account_settings"),
