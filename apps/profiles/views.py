@@ -136,6 +136,7 @@ class VHMSProfileView(TemplateView):
         template_name = self.get_template(request, **kwargs)
         if template_name:
             form = forms.VHMSProfileForm(instance=request.user)
+            print(request.user)
             context = {"form": form, "title": _("Update Profile")}
             return render(request, template_name, context)
         else:
