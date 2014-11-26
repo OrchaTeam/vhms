@@ -3,7 +3,7 @@
 *.db
 .DS_Store
 .coverage
-.idea
+/.idea
 local_settings.py
 /static
 /log

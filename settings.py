@@ -222,6 +222,11 @@ except ImportError:
     pass
 
 try:
+    from config.utils_settings import *
+except ImportError:
+    pass
+
+try:
     from mezzanine.utils.conf import set_dynamic_settings
     set_dynamic_settings(globals())
 except ImportError:

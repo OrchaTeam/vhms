@@ -1,16 +1,16 @@
 from django import template
-from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
 @register.filter
-def get_profile(profile, attr):
+def get_profile(user, attr):
     """
 
     """
-    value = _("Profile: ")
-    if hasattr(profile, attr):
-        value = getattr(profile, attr)
+    try:
+        value = getattr(user, attr)
         if callable(value):
-            value += value()
+            value = value()
+    except AttributeError:
+        value = "Profile"
     return value

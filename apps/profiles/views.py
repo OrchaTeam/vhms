@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import View, RedirectView, TemplateView
 from django.conf import settings
 from django.core.urlresolvers import reverse, get_script_prefix
-from django.template import TemplateDoesNotExist
 
 from apps.utils.email import send_verification_mail
 from apps.utils.views import render
@@ -72,6 +71,7 @@ class VHMSUserPasswordChangeView(View):
                     'template': "profiles/profiles_account_settings.html"}
         else:
             self.form = forms.VHMSUserPasswordChangeForm(data=request.POST or None, instance=request.user)
+            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Update Password"),
                     'redirect_link': "home",
                     'template': "accounts/account_password_change.html"}
@@ -107,7 +107,7 @@ class VHMSUserLoginView(View):
 
     def post(self,request):
         form = forms.VHMSUserLoginForm(request.POST or None)
-        if request.method == "POST" and form.is_valid():
+        if form.is_valid():
             authenticated_user = form.save()
             info(request, _("Successfully logged in"))
             login(request, authenticated_user)
@@ -136,7 +136,6 @@ class VHMSProfileView(TemplateView):
         template_name = self.get_template(request, **kwargs)
         if template_name:
             form = forms.VHMSProfileForm(instance=request.user)
-            print(request.user)
             context = {"form": form, "title": _("Update Profile")}
             return render(request, template_name, context)
         else:
@@ -149,6 +148,10 @@ class VHMSProfileView(TemplateView):
                                          request.FILES,
                                          instance=request.user)
             context = {"form": form, "title": _("Update Profile")}
+            if form.is_valid():
+                a = form.save()
+                info(request, _("Profile has been updated"))
+                info(request, a)
             return render(request, template_name, context)
         else:
             redirect("/")
@@ -159,11 +162,6 @@ class VHMSProfileView(TemplateView):
         except:
             error(request, _("Internal error. Try again later, please."))
             return ""
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(VHMSProfileView, self).dispatch(*args, **kwargs)
-
 
 def signup_verify(request, uidb36=None, token=None):
     """
@@ -184,6 +182,6 @@ def signup_verify(request, uidb36=None, token=None):
 signup = VHMSUserSignupView.as_view()
 signin = VHMSUserLoginView.as_view()
 signout = VHMSUserLogoutView.as_view()
-password_change = VHMSUserPasswordChangeView.as_view()
+password_change = login_required(VHMSUserPasswordChangeView.as_view())
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()
-profile = VHMSProfileView.as_view()
+profile = login_required(VHMSProfileView.as_view())

@@ -15,22 +15,28 @@ class VHMSUserBaseForm(forms.ModelForm):
     """
 
     class Meta:
-        model = User
-        fields = ("username", "email", )
+        model = Profile
+        fields = ("username", "email", "first_name", "last_name",)
 
     def __init__(self, *args, **kwargs):
         super(VHMSUserBaseForm, self).__init__(*args, **kwargs)
-        if self.fields["username"]:
-            self.fields["username"].label = "Username"
-        if self.fields["email"]:
-            self.fields["email"].label = "Email"
+        instance = self.instance.id or None
+        if instance:
+            self.profile = Profile.objects.get(id=instance)
+        if "username" in self.fields:
+            self.fields["username"].label = _("Username")
+        if "email" in self.fields:
+            self.fields["email"].label = _("Email")
+        if "first_name" in self.fields:
+            self.fields["first_name"].label = _("First Name")
+        if "last_name" in self.fields:
+            self.fields["last_name"].label = _("Last Name")
+
+        for field in self.fields:
+            self.fields[field].required = True
 
 
     def clean_username(self):
-        """
-
-        """
-
         username = self.cleaned_data.get("username")
         USERNAME_REGEX = UserCreationForm().fields['username'].regex
         if not USERNAME_REGEX.match(username):
@@ -50,15 +56,25 @@ class VHMSUserBaseForm(forms.ModelForm):
                                       "choose another."))
 
     def clean_email(self):
-        """
-
-        """
         email = self.cleaned_data["email"]
         qs = User.objects.filter(email=email)
         if len(qs) == 0:
             return email
         raise forms.ValidationError(_("This email is already registered"))
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name")
+
+        if first_name in settings.USER_BLACKLIST:
+            raise forms.ValidationError(_("First name can not be used. "
+                                          "Please use other username."))
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get("last_name")
+
+        if last_name in settings.USER_BLACKLIST:
+            raise forms.ValidationError(_("Last name can not be used. "
+                                          "Please use other username."))
 
 class VHMSUserSignupForm(VHMSUserBaseForm):
     """
@@ -77,12 +93,8 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
 
     def __init__(self, *args, **kwargs):
         super(VHMSUserSignupForm, self).__init__(*args, **kwargs)
-        self.fields["username"].required = True
-        self.fields["email"].required = True
-
 
     def clean_password2(self):
-
         password1 = self.cleaned_data["password1"]
         password2 = self.cleaned_data["password2"]
 
@@ -98,8 +110,8 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
                 self._errors["password1"] = self.error_class(errors)
         return password2
 
+    # {WORKAROUND: *args **kwargs?!?!}
     def save(self, *args, **kwargs):
-
         kwargs["commit"] = False
         user = super(VHMSUserSignupForm, self).save(*args, **kwargs)
         user.is_active = False
@@ -113,7 +125,8 @@ class VHMSUserSignupForm(VHMSUserBaseForm):
 
 class VHMSUserPasswordChangeForm(forms.ModelForm):
 
-    password1 = forms.CharField(label=_("New password"),
+    password1 = forms.CharField(
+        label=_("New password"),
         widget=forms.PasswordInput(
             render_value=False,
             attrs={'autocomplete': 'off;'}))
@@ -123,7 +136,7 @@ class VHMSUserPasswordChangeForm(forms.ModelForm):
             attrs={'autocomplete': 'off;'}))
 
     class Meta:
-        model = User
+        model = Profile
         fields = ()
 
     def __init__(self, *args, **kwargs):
@@ -132,7 +145,6 @@ class VHMSUserPasswordChangeForm(forms.ModelForm):
             self.user = User.objects.get(id=self.instance.id)
 
     def clean_password2(self):
-
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
 
@@ -149,7 +161,6 @@ class VHMSUserPasswordChangeForm(forms.ModelForm):
         return password2
 
     def save(self, *args, **kwargs):
-
         password = self.cleaned_data.get("password1")
         if password:
             self.user.set_password(password)
@@ -158,12 +169,12 @@ class VHMSUserPasswordChangeForm(forms.ModelForm):
 
 class VHMSExtendUserPasswordChangeForm(VHMSUserPasswordChangeForm):
 
-    old_password = forms.CharField(label=_("Old password"),
+    old_password = forms.CharField(
+        label=_("Old password"),
         widget=forms.PasswordInput(
             render_value=False))
 
     def clean_old_password(self):
-
         old_password = self.cleaned_data.get("old_password")
         if old_password:
             if not self.user.check_password(old_password):
@@ -185,9 +196,6 @@ class VHMSUserLoginForm(forms.Form):
             attrs={'autocomplete': 'off;'}))
 
     def clean(self):
-        """
-
-        """
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
         self._user = authenticate(username=username, password=password)
@@ -199,30 +207,19 @@ class VHMSUserLoginForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
-        """
-
-        """
         return getattr(self, "_user", None)
 
 
-class VHMSProfileForm(forms.ModelForm):
+class VHMSProfileForm(VHMSUserBaseForm):
     """
 
     """
+
 
     class Meta:
         model = Profile
-        fields = ("first_name", "last_name", )
+        fields = ("first_name", "last_name",)
 
-    def __init__(self, *args, **kwargs):
-        super(VHMSProfileForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields:
-            self.fields[field].required = True
-
-
-    def save(self, *args, **kwargs):
-        pass
-
-    def clean(self):
-        pass
+    def save(self, commit=True):
+        self.profile.save()
+        return self.profile

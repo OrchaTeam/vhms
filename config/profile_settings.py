@@ -1,5 +1,5 @@
 # auth backend param for customization user profile
-VHMS_PROFILE_USER_MODEL = 'apps.profiles.Profile'
+VHMS_PROFILE_USER_MODEL = 'apps.profiles Profile'
 
 # replaced from account_settings
 LOGIN_URL = '/accounts/login/'
