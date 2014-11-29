@@ -1,13 +1,10 @@
 from django.conf import settings
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth import authenticate
 
 from .models import Profile
-
-User = get_user_model()
 
 class VHMSUserBaseForm(forms.ModelForm):
     """
@@ -20,9 +17,7 @@ class VHMSUserBaseForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(VHMSUserBaseForm, self).__init__(*args, **kwargs)
-        instance = self.instance.id or None
-        if instance:
-            self.profile = Profile.objects.get(id=instance)
+
         if "username" in self.fields:
             self.fields["username"].label = _("Username")
         if "email" in self.fields:
@@ -49,15 +44,15 @@ class VHMSUserBaseForm(forms.ModelForm):
 
         try:
             query = {'username__iexact': username}
-            User.objects.get(**query)
-        except User.DoesNotExist:
+            Profile.objects.get(**query)
+        except Profile.DoesNotExist:
             return username
         raise forms.ValidationError(_("This username is already taken. Please "
                                       "choose another."))
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        qs = User.objects.filter(email=email)
+        qs = Profile.objects.filter(email=email)
         if len(qs) == 0:
             return email
         raise forms.ValidationError(_("This email is already registered"))
@@ -65,16 +60,18 @@ class VHMSUserBaseForm(forms.ModelForm):
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
 
-        if first_name in settings.USER_BLACKLIST:
-            raise forms.ValidationError(_("First name can not be used. "
-                                          "Please use other username."))
+        if first_name.lower() not in settings.USER_BLACKLIST:
+            return first_name
+        raise forms.ValidationError(_("First name can not be used. "
+                                      "Please use other username."))
 
     def clean_last_name(self):
         last_name = self.cleaned_data.get("last_name")
 
-        if last_name in settings.USER_BLACKLIST:
-            raise forms.ValidationError(_("Last name can not be used. "
-                                          "Please use other username."))
+        if last_name.lower() not in settings.USER_BLACKLIST:
+            return last_name
+        raise forms.ValidationError(_("Last name can not be used. "
+                                      "Please use other username."))
 
 class VHMSUserSignupForm(VHMSUserBaseForm):
     """
@@ -142,7 +139,7 @@ class VHMSUserPasswordChangeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VHMSUserPasswordChangeForm, self).__init__(*args, **kwargs)
         if self.instance.id:
-            self.user = User.objects.get(id=self.instance.id)
+            self.user = Profile.objects.get(id=self.instance.id)
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -215,11 +212,6 @@ class VHMSProfileForm(VHMSUserBaseForm):
 
     """
 
-
     class Meta:
         model = Profile
-        fields = ("first_name", "last_name",)
-
-    def save(self, commit=True):
-        self.profile.save()
-        return self.profile
+        fields = ("first_name", "last_name", )
