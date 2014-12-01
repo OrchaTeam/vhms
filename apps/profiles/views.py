@@ -10,7 +10,6 @@ from apps.utils.email import send_verification_mail
 from apps.utils.views import render
 from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
-from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 
@@ -18,12 +17,12 @@ class VHMSUserSignupView(View):
     """
 
     """
-
-    template_name = "accounts/account_signup.html"
+    template_name = "profiles/account_signup.html"
+    title = _("Sign up")
 
     def get(self, request):
         form = forms.VHMSUserSignupForm()
-        context = {"form": form, "title": _("Sign up")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -40,7 +39,7 @@ class VHMSUserSignupView(View):
                 info(request, _("Successfully signed up"))
                 login(request, new_user)
                 return login_redirect(request)
-        context = {"form": form, "title": _("Sign up")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
 
@@ -66,6 +65,7 @@ class VHMSUserPasswordChangeView(View):
     def init_form(self, request):
         if request.path == reverse("account_settings"):
             self.form = forms.VHMSExtendUserPasswordChangeForm(data=request.POST or None, instance=request.user)
+            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Account Settings"),
                     'redirect_link': "account_settings",
                     'template': "profiles/profiles_account_settings.html"}
@@ -74,7 +74,7 @@ class VHMSUserPasswordChangeView(View):
             # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Update Password"),
                     'redirect_link': "home",
-                    'template': "accounts/account_password_change.html"}
+                    'template': "profiles/account_password_change.html"}
 
 
 class VHMSUserPasswordVerifyRedirectView(RedirectView):
@@ -98,11 +98,12 @@ class VHMSUserLoginView(View):
     """
 
     """
-    template_name = "accounts/account_signup.html"
+    template_name = "profiles/account_signup.html"
+    title = _("Sign in")
 
     def get(self, request):
         form = forms.VHMSUserLoginForm()
-        context = {"form": form, "title": _("Sign in")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
     def post(self,request):
@@ -112,7 +113,7 @@ class VHMSUserLoginView(View):
             info(request, _("Successfully logged in"))
             login(request, authenticated_user)
             return login_redirect(request)
-        context = {"form": form, "title": _("Sign in")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
 
@@ -127,41 +128,53 @@ class VHMSUserLogoutView(View):
         return redirect(next_url(request) or get_script_prefix())
 
 
-class VHMSProfileView(TemplateView):
+class VHMSUserProfileView(TemplateView):
     """
 
     """
+    template_name = "profiles/profiles_update.html"
+    title = _("Update Profile")
 
     def get(self, request, *args, **kwargs):
-        template_name = self.get_template(request, **kwargs)
-        if template_name:
-            form = forms.VHMSProfileForm(instance=request.user)
-            context = {"form": form, "title": _("Update Profile")}
-            return render(request, template_name, context)
-        else:
-            redirect("/")
+        form = forms.VHMSUserProfileForm(instance=request.user)
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        template_name = self.get_template(request, **kwargs)
-        if template_name:
-            form = forms.VHMSProfileForm(request.POST,
-                                         request.FILES,
-                                         instance=request.user)
-            context = {"form": form, "title": _("Update Profile")}
-            if form.is_valid():
-                a = form.save()
-                info(request, _("Profile has been updated"))
-                info(request, a)
-            return render(request, template_name, context)
-        else:
-            redirect("/")
+        form = forms.VHMSUserProfileForm(request.POST,
+                                     request.FILES,
+                                     instance=request.user)
+        context = {"form": form, "title": self.title}
+        if form.is_valid():
+            a = form.save()
+            info(request, _("Profile has been updated"))
+            info(request, a)
+        return render(request, self.template_name, context)
 
-    def get_template(self, request, **kwargs):
-        try:
-            return self.kwargs['template']
-        except:
-            error(request, _("Internal error. Try again later, please."))
-            return ""
+
+class VHMSUserPasswordResetView(TemplateView):
+    """
+
+    """
+    template_name = "profiles/account_password_reset.html"
+    title = _("Reset Password")
+
+    def get(self, request, *args, **kwargs):
+        form = forms.VHMSUserPasswordResetForm()
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = forms.VHMSUserPasswordResetForm(request.POST)
+        if form.is_valid():
+            profile = form.save()
+            print(profile)
+            send_verification_mail(request, profile, "password_reset_verify")
+            info(request, _("A verification email has been sent with "
+                            "a link for resetting your password."))
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
+
 
 def signup_verify(request, uidb36=None, token=None):
     """
@@ -183,5 +196,6 @@ signup = VHMSUserSignupView.as_view()
 signin = VHMSUserLoginView.as_view()
 signout = VHMSUserLogoutView.as_view()
 password_change = login_required(VHMSUserPasswordChangeView.as_view())
+password_reset = VHMSUserPasswordResetView.as_view()
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()
-profile = login_required(VHMSProfileView.as_view())
+profile = login_required(VHMSUserProfileView.as_view())

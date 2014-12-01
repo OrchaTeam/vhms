@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url
-from mezzanine.accounts import views as mezzanine
 
 from apps.profiles import views as profiles
 
@@ -9,17 +8,26 @@ urlpatterns = patterns('',
         {'template': "profiles/profiles_update.html"},
         name="profile_update"),
     url(r'^profile/settings/$',
-        profiles.password_change, name="account_settings"),
+        profiles.password_change,
+        name="account_settings"),
 
     # переопределенные вьюхи, формы и урлы
     url(r"^accounts/signup/$",
-        profiles.signup, name="accounts_signup"),
+        profiles.signup,
+        name="accounts_signup"),
     url(r"^accounts/login/$",
-        profiles.signin, name="accounts_login"),
+        profiles.signin,
+        name="accounts_login"),
     url(r"^accounts/signup/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
-        profiles.signup_verify, name="signup_verify"),
+        profiles.signup_verify,
+        name="signup_verify"),
     url(r"^accounts/password/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
-        profiles.password_reset_verify, name="password_reset_verify"),
+        profiles.password_reset_verify,
+        name="password_reset_verify"),
     url(r"^accounts/password/change/$",
-        profiles.password_change, name="password_change"),
+        profiles.password_change,
+        name="password_change"),
+    url(r"^accounts/reset/$",
+        profiles.password_reset,
+        name="accounts_reset"),
 )

@@ -15,6 +15,7 @@ LOGIN_REDIRECT_URL = '/'
 # VHMSUserBaseForm
 USER_BLACKLIST = (
     "huy",
+    "eugene",
 )
 
 # VHMSUserSignupForm
