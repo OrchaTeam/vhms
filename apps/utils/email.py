@@ -84,5 +84,5 @@ def send_verification_mail(request, profile, verification_type):
     subject_template_name = "email/%s_subject.txt" % verification_type
     subject = subject_template(subject_template_name, context)
     send_mail_template(subject, "email/%s" % verification_type,
-                       settings.DEFAULT_FROM_EMAIL, user.email,
+                       settings.DEFAULT_FROM_EMAIL, profile.email,
                        context=context)

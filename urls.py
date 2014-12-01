@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 
 from mezzanine.core.views import direct_to_template
 
+
 admin.autodiscover()
 
 # Tech
@@ -27,8 +28,8 @@ urlpatterns += patterns("",
 
 # Overall
 urlpatterns += patterns('',
-    url("^$", direct_to_template, {"template": "index.html"}, name="home"),
-    url("^main/$", direct_to_template, {"template": "main.html"}, name="home"),
+    url("^$", direct_to_template, {"template": "index.html"}, name=VHMS_CORE_HOME),
+    url("^main/$", direct_to_template, {"template": "main.html"}, name=VHMS_CORE_TEST_HOME),
 )
 
 # Static

@@ -1,6 +1,3 @@
-# auth backend param for customization user profile
-VHMS_PROFILE_USER_MODEL = 'apps.profiles Profile'
-
 # replaced from account_settings
 LOGIN_URL = '/accounts/login/'
 
@@ -15,7 +12,6 @@ LOGIN_REDIRECT_URL = '/'
 # VHMSUserBaseForm
 USER_BLACKLIST = (
     "huy",
-    "eugene",
 )
 
 # VHMSUserSignupForm
