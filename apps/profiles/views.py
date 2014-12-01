@@ -2,26 +2,29 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.messages import info, error
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic.base import View, RedirectView
+from django.views.generic.base import View, RedirectView, TemplateView
 from django.conf import settings
 from django.core.urlresolvers import reverse, get_script_prefix
+from django.contrib.auth.decorators import login_required
 
 from apps.utils.email import send_verification_mail
 from apps.utils.views import render
 from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
+from config import views_settings as views_names
+
 
 
 class VHMSUserSignupView(View):
     """
 
     """
-
-    template_name = "accounts/account_signup.html"
+    template_name = "profiles/account_signup.html"
+    title = _("Sign up")
 
     def get(self, request):
         form = forms.VHMSUserSignupForm()
-        context = {"form": form, "title": _("Sign up")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -33,12 +36,12 @@ class VHMSUserSignupView(View):
                     send_verification_mail(request, new_user, "signup_verify")
                     info(request, _("A verification email has been sent with "
                                     "a link for activating your account."))
-                return redirect(next_url(request) or "/")
+                return redirect(next_url(request) or views_names.VHMS_CORE_HOME)
             else:
                 info(request, _("Successfully signed up"))
                 login(request, new_user)
                 return login_redirect(request)
-        context = {"form": form, "title": _("Sign up")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
 
@@ -63,15 +66,17 @@ class VHMSUserPasswordChangeView(View):
 
     def init_form(self, request):
         if request.path == reverse("account_settings"):
-            self.form = forms.VHMSExtendPasswordChange(data=request.POST or None, instance=request.user)
+            self.form = forms.VHMSExtendUserPasswordChangeForm(data=request.POST or None, instance=request.user)
+            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Account Settings"),
-                    'redirect_link': "account_settings",
+                    'redirect_link': views_names.VHMS_PROFILE_ACCOUNT_SETTINGS,
                     'template': "profiles/profiles_account_settings.html"}
         else:
-            self.form = forms.VHMSPasswordChange(data=request.POST or None, instance=request.user)
+            self.form = forms.VHMSUserPasswordChangeForm(data=request.POST or None, instance=request.user)
+            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Update Password"),
-                    'redirect_link': "home",
-                    'template': "accounts/account_password_change.html"}
+                    'redirect_link': views_names.VHMS_CORE_HOME,
+                    'template': "profiles/account_password_change.html"}
 
 
 class VHMSUserPasswordVerifyRedirectView(RedirectView):
@@ -82,65 +87,115 @@ class VHMSUserPasswordVerifyRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         uidb36, token = self.kwargs['uidb36'], self.kwargs['token']
         if uidb36 and token:
-            user = authenticate(uidb36=uidb36, token=token, is_active=True)
-            if user is not None:
-                login(self.request, user)
-                return reverse('password_change')
+            profile = authenticate(uidb36=uidb36, token=token, is_active=True)
+            if profile is not None:
+                login(self.request, profile)
             else:
                 error(self.request, _("The link you clicked is no longer valid."))
-                return reverse('home')
+            return reverse(views_names.VHMS_PROFILE_PASSWORD_CHANGE)
 
 
 class VHMSUserLoginView(View):
     """
 
     """
-    template_name = "accounts/account_signup.html"
+    template_name = "profiles/account_signup.html"
+    title = _("Sign in")
 
     def get(self, request):
         form = forms.VHMSUserLoginForm()
-        context = {"form": form, "title": _("Sign in")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
     def post(self,request):
         form = forms.VHMSUserLoginForm(request.POST or None)
-        if request.method == "POST" and form.is_valid():
+        if form.is_valid():
             authenticated_user = form.save()
             info(request, _("Successfully logged in"))
             login(request, authenticated_user)
             return login_redirect(request)
-        context = {"form": form, "title": _("Sign in")}
+        context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
-class VHMSUserLogout(View):
+
+class VHMSUserLogoutView(View):
+    """
+
+    """
+
     def get(self,request):
-        """
-        Log the user out.
-        """
         logout(request)
         info(request, _("Successfully logged out"))
         return redirect(next_url(request) or get_script_prefix())
+
+
+class VHMSUserProfileView(TemplateView):
+    """
+
+    """
+    template_name = "profiles/profiles_update.html"
+    title = _("Update Profile")
+
+    def get(self, request, *args, **kwargs):
+        form = forms.VHMSUserProfileForm(instance=request.user)
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = forms.VHMSUserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=request.user)
+        context = {"form": form, "title": self.title}
+        if form.is_valid():
+            form.save()
+            info(request, _("Profile has been updated"))
+        return render(request, self.template_name, context)
+
+
+class VHMSUserPasswordResetView(TemplateView):
+    """
+
+    """
+    template_name = "profiles/account_password_reset.html"
+    title = _("Reset Password")
+
+    def get(self, request, *args, **kwargs):
+        form = forms.VHMSUserPasswordResetForm()
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = forms.VHMSUserPasswordResetForm(request.POST)
+        if form.is_valid():
+            profile = form.save()
+            send_verification_mail(request, profile, "password_reset_verify")
+            info(request, _("A verification email has been sent with "
+                            "a link for resetting your password."))
+        context = {"form": form, "title": self.title}
+        return render(request, self.template_name, context)
+
 
 def signup_verify(request, uidb36=None, token=None):
     """
 
     """
-    user = authenticate(uidb36=uidb36, token=token, is_active=False)
-    if user is not None:
-        user.is_active = True
-        user.save()
-        login(request, user)
+    profile = authenticate(uidb36=uidb36, token=token, is_active=False)
+    if profile is not None:
+        profile.is_active = True
+        profile.save()
+        login(request, profile)
         info(request, _("Successfully signed up"))
         return login_redirect(request)
     else:
         error(request, _("The link you clicked is no longer valid."))
-        return redirect("/")
-
-
+        return redirect(views_names.VHMS_CORE_HOME)
 
 
 signup = VHMSUserSignupView.as_view()
 signin = VHMSUserLoginView.as_view()
-signout = VHMSUserLogout.as_view()
-password_change = VHMSUserPasswordChangeView.as_view()
+signout = VHMSUserLogoutView.as_view()
+password_change = login_required(VHMSUserPasswordChangeView.as_view())
+password_reset = VHMSUserPasswordResetView.as_view()
 password_reset_verify = VHMSUserPasswordVerifyRedirectView.as_view()
+profile_update = login_required(VHMSUserProfileView.as_view())

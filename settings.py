@@ -48,6 +48,7 @@ TEMPLATE_LOADERS = (
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "mezzanine.core.auth_backends.MezzanineBackend",
+    "apps.profiles.auth_backends.VHMSProfileModelBackend",
     #"allauth.account.auth_backends.AuthenticationBackend",
     )
 
@@ -146,7 +147,6 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     "apps.profiles",
-    "apps.accounts",
     "apps.utils",
     )
 
@@ -217,6 +217,11 @@ except ImportError:
 
 try:
     from config.storages_settings import *
+except ImportError:
+    pass
+
+try:
+    from config.utils_settings import *
 except ImportError:
     pass
 

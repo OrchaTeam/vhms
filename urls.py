@@ -5,8 +5,11 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
+from config import views_settings as views_names
 
+# {WORKAROUND: clean dependencies}
 from mezzanine.core.views import direct_to_template
+
 
 admin.autodiscover()
 
@@ -22,14 +25,13 @@ urlpatterns += i18n_patterns("",
 
 # Include
 urlpatterns += patterns("", 
-    url(r"^", include("apps.accounts.urls", app_name="accounts")),
     url(r"^", include("apps.profiles.urls", app_name="profiles")),
 )
 
 # Overall
 urlpatterns += patterns('',
-    url("^$", direct_to_template, {"template": "index.html"}, name="home"),
-    url("^main/$", direct_to_template, {"template": "main.html"}, name="home"),
+    url("^$", direct_to_template, {"template": "index.html"}, name=views_names.VHMS_CORE_HOME),
+    url("^main/$", direct_to_template, {"template": "main.html"}, name=views_names.VHMS_CORE_TEST_HOME),
 )
 
 # Static

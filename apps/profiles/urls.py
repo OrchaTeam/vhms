@@ -1,22 +1,37 @@
 from django.conf.urls import patterns, url
-from mezzanine.accounts import views as mezzanine
+from config import views_settings as views_names
 
-from apps.profiles.views import signup, signup_verify, password_change, password_reset_verify, signin, signout
+from apps.profiles import views as profiles
+
 
 urlpatterns = patterns('',
-    url(r'^profile/view/(?P<username>.*)/$', mezzanine.profile,
-        {'template': 'profiles/profiles_profile.html'}, name="profile_view"),
-    url(r'^profile/update/$', mezzanine.profile_update,
-        {'template': 'profiles/profiles_update.html'}, name="profile_update"),
-    url(r'^profile/settings/$', password_change, name="account_settings"),
+    url(r'^profile/profile_settings/$',
+        profiles.profile_update,
+        name=views_names.VHMS_PROFILE_UPDATE),
+    url(r'^profile/account_settings/$',
+        profiles.password_change,
+        name=views_names.VHMS_PROFILE_ACCOUNT_SETTINGS),
 
     # переопределенные вьюхи, формы и урлы
-    url(r"^accounts/signup/$", signup, name="accounts_signup"),
-    url(r"^accounts/login/$", signin, name="accounts_login"),
-    url(r"^accounts/logout/$", signout, name="accounts_logout"),
+    url(r"^accounts/signup/$",
+        profiles.signup,
+        name=views_names.VHMS_PROFILE_SIGNUP),
+    url(r"^accounts/login/$",
+        profiles.signin,
+        name=views_names.VHMS_PROFILE_LOGIN),
     url(r"^accounts/signup/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
-        signup_verify, name="signup_verify"),
+        profiles.signup_verify,
+        name=views_names.VHMS_PROFILE_SIGNUP_VERIFY),
     url(r"^accounts/password/verify/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$",
-        password_reset_verify, name="password_reset_verify"),
-    url(r"^accounts/password/change/$", password_change, name="password_change"),
+        profiles.password_reset_verify,
+        name=views_names.VHMS_PROFILE_PASSWORD_RESET_VERIFY),
+    url(r"^accounts/password/change/$",
+        profiles.password_change,
+        name=views_names.VHMS_PROFILE_PASSWORD_CHANGE),
+    url(r"^accounts/reset/$",
+        profiles.password_reset,
+        name=views_names.VHMS_PROFILE_PASSWORD_RESET),
+    url(r"^accounts/logout/$",
+        profiles.signout,
+        name=views_names.VHMS_PROFILE_SIGNOUT),
 )

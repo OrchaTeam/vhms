@@ -34,7 +34,7 @@
         {% for field in form %}
             {% render_field field placeholder=field.label class+="form-control" %} 
         {% endfor %}
-        {% if "Log in" in title %}
+        {% if "Sign in" in title %}
         {% comment %} 
         {WORKAROUND: разобраться с этой хуйней}
         <p>{% blocktrans with request.GET.next as next %}If you don't have an account you can <a href="{{ accounts_signup }}?next={{ next }}">sign up</a> for one now.{% endblocktrans %}</p> %} 
