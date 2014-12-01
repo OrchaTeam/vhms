@@ -61,7 +61,7 @@ def send_mail_template(subject, template, addr_from, addr_to, context=None,
     msg.send(fail_silently=fail_silently)
 
 
-def send_verification_mail(request, user, verification_type):
+def send_verification_mail(request, profile, verification_type):
     """
     It was transferred from Mezzanine 3.1.9
     Sends an email with a verification link to users when
@@ -73,12 +73,12 @@ def send_verification_mail(request, user, verification_type):
     """
 
     verify_url = reverse(verification_type, kwargs={
-        "uidb36": int_to_base36(user.id),
-        "token": default_token_generator.make_token(user),
+        "uidb36": int_to_base36(profile.id),
+        "token": default_token_generator.make_token(profile),
     }) + "?next=" + (next_url(request) or "/")
     context = {
         "request": request,
-        "user": user,
+        "profile": profile,
         "verify_url": verify_url,
     }
     subject_template_name = "email/%s_subject.txt" % verification_type

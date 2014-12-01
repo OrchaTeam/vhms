@@ -30,4 +30,7 @@ urlpatterns = patterns('',
     url(r"^accounts/reset/$",
         profiles.password_reset,
         name="accounts_reset"),
+    url(r"^accounts/logout/$",
+        profiles.signup,
+        name="accounts_logout"),
 )

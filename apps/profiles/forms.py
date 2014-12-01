@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 from .models import Profile
 
@@ -52,7 +53,7 @@ class VHMSUserBaseForm(forms.ModelForm):
                                       "choose another."))
 
     def clean_email(self):
-        email = self.cleaned_data["email"]
+        email = self.cleaned_data.get("email")
         qs = Profile.objects.filter(email=email)
         if len(qs) == 0:
             return email
@@ -92,6 +93,10 @@ class VHMSUserPasswordBaseForm(forms.ModelForm):
             render_value=False,
             attrs={'autocomplete': 'off;'})
     )
+
+    class Meta:
+        model = Profile
+        fields = ()
 
     def clean_password2(self):
         password1 = self.cleaned_data["password1"]
@@ -226,19 +231,19 @@ class VHMSUserPasswordResetForm(forms.Form):
     View: ResetPasswordView.
     """
 
-    email = forms.CharField(
-        label=_("Email"),
-        required=True)
+    username_or_email = forms.CharField(
+        label=_("Username or Email"))
 
     def clean(self):
-        email = self.cleaned_data.get("email")
+        input = self.cleaned_data.get("username_or_email")
+        username_or_email = Q(username=input) | Q(email=input)
         try:
-            profile = Profile.objects.get(email, is_active=True)
+            profile = Profile.objects.get(username_or_email, is_active=True)
         except Profile.DoesNotExist:
             raise forms.ValidationError(
-                             ugettext("Invalid email"))
+                ugettext("Invalid username/email"))
         else:
-            self._user = profile
+            self._profile = profile
         return self.cleaned_data
 
     def save(self):
@@ -246,5 +251,5 @@ class VHMSUserPasswordResetForm(forms.Form):
         Just return the authenticated user - used for sending login
         email.
         """
-        return getattr(self, "_user", None)
+        return getattr(self, "_profile", None)
 

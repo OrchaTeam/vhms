@@ -85,9 +85,9 @@ class VHMSUserPasswordVerifyRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         uidb36, token = self.kwargs['uidb36'], self.kwargs['token']
         if uidb36 and token:
-            user = authenticate(uidb36=uidb36, token=token, is_active=True)
-            if user is not None:
-                login(self.request, user)
+            profile = authenticate(uidb36=uidb36, token=token, is_active=True)
+            if profile is not None:
+                login(self.request, profile)
                 return reverse('password_change')
             else:
                 error(self.request, _("The link you clicked is no longer valid."))
@@ -141,9 +141,10 @@ class VHMSUserProfileView(TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        form = forms.VHMSUserProfileForm(request.POST,
-                                     request.FILES,
-                                     instance=request.user)
+        form = forms.VHMSUserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=request.user)
         context = {"form": form, "title": self.title}
         if form.is_valid():
             a = form.save()
@@ -168,7 +169,6 @@ class VHMSUserPasswordResetView(TemplateView):
         form = forms.VHMSUserPasswordResetForm(request.POST)
         if form.is_valid():
             profile = form.save()
-            print(profile)
             send_verification_mail(request, profile, "password_reset_verify")
             info(request, _("A verification email has been sent with "
                             "a link for resetting your password."))
@@ -180,16 +180,16 @@ def signup_verify(request, uidb36=None, token=None):
     """
 
     """
-    user = authenticate(uidb36=uidb36, token=token, is_active=False)
-    if user is not None:
-        user.is_active = True
-        user.save()
-        login(request, user)
+    profile = authenticate(uidb36=uidb36, token=token, is_active=False)
+    if profile is not None:
+        profile.is_active = True
+        profile.save()
+        login(request, profile)
         info(request, _("Successfully signed up"))
         return login_redirect(request)
     else:
         error(request, _("The link you clicked is no longer valid."))
-        return redirect("/")
+        return redirect("home")
 
 
 signup = VHMSUserSignupView.as_view()
