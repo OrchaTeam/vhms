@@ -75,6 +75,15 @@ class VHMSUserBaseForm(forms.ModelForm):
         raise forms.ValidationError(_("Last name can not be used. "
                                       "Please use other username."))
 
+    def clean_country(self):
+        return self.cleaned_data.get("country")
+
+    def clean_city(self):
+        return self.cleaned_data.get("city")
+
+    def clean_about(self):
+        return self.cleaned_data.get("about")
+
 class VHMSUserPasswordBaseForm(forms.ModelForm):
     """
     It is the base form for a number of password forms.
@@ -177,7 +186,7 @@ class VHMSExtendUserPasswordChangeForm(VHMSUserPasswordChangeForm):
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")
         if old_password:
-            if not self.user.check_password(old_password):
+            if not self.profile.check_password(old_password):
                 raise forms.ValidationError(
                                 ugettext("Old password is incorrect. "))
         return old_password
@@ -223,7 +232,7 @@ class VHMSUserProfileForm(VHMSUserBaseForm):
 
     class Meta:
         model = Profile
-        fields = ("first_name", "last_name", )
+        fields = ("first_name", "last_name", "country", "city", "about", )
 
 
 class VHMSUserPasswordResetForm(forms.Form):

@@ -11,7 +11,7 @@ from apps.utils.email import send_verification_mail
 from apps.utils.views import render
 from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
-from django.conf import settings
+from config import views_settings as views_names
 
 
 
@@ -36,7 +36,7 @@ class VHMSUserSignupView(View):
                     send_verification_mail(request, new_user, "signup_verify")
                     info(request, _("A verification email has been sent with "
                                     "a link for activating your account."))
-                return redirect(next_url(request) or "/")
+                return redirect(next_url(request) or views_names.VHMS_CORE_HOME)
             else:
                 info(request, _("Successfully signed up"))
                 login(request, new_user)
@@ -69,13 +69,13 @@ class VHMSUserPasswordChangeView(View):
             self.form = forms.VHMSExtendUserPasswordChangeForm(data=request.POST or None, instance=request.user)
             # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Account Settings"),
-                    'redirect_link': settings.VHMS_PROFILE_ACCOUNT_SETTINGS,
+                    'redirect_link': views_names.VHMS_PROFILE_ACCOUNT_SETTINGS,
                     'template': "profiles/profiles_account_settings.html"}
         else:
             self.form = forms.VHMSUserPasswordChangeForm(data=request.POST or None, instance=request.user)
             # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Update Password"),
-                    'redirect_link': "home",
+                    'redirect_link': views_names.VHMS_CORE_HOME,
                     'template': "profiles/account_password_change.html"}
 
 
@@ -92,7 +92,7 @@ class VHMSUserPasswordVerifyRedirectView(RedirectView):
                 login(self.request, profile)
             else:
                 error(self.request, _("The link you clicked is no longer valid."))
-            return reverse('vhms')
+            return reverse(views_names.VHMS_PROFILE_PASSWORD_CHANGE)
 
 
 class VHMSUserLoginView(View):
@@ -189,7 +189,7 @@ def signup_verify(request, uidb36=None, token=None):
         return login_redirect(request)
     else:
         error(request, _("The link you clicked is no longer valid."))
-        return redirect("vhms")
+        return redirect(views_names.VHMS_CORE_HOME)
 
 
 signup = VHMSUserSignupView.as_view()

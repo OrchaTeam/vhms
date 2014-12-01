@@ -5,7 +5,9 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
+from config import views_settings as views_names
 
+# {WORKAROUND: clean dependencies}
 from mezzanine.core.views import direct_to_template
 
 
@@ -28,8 +30,8 @@ urlpatterns += patterns("",
 
 # Overall
 urlpatterns += patterns('',
-    url("^$", direct_to_template, {"template": "index.html"}, name=VHMS_CORE_HOME),
-    url("^main/$", direct_to_template, {"template": "main.html"}, name=VHMS_CORE_TEST_HOME),
+    url("^$", direct_to_template, {"template": "index.html"}, name=views_names.VHMS_CORE_HOME),
+    url("^main/$", direct_to_template, {"template": "main.html"}, name=views_names.VHMS_CORE_TEST_HOME),
 )
 
 # Static

@@ -1,9 +1,8 @@
-from django.conf import settings
 from django.contrib.auth.backends import ModelBackend
-from django.core.exceptions import ImproperlyConfigured
 from django.db.models import get_model, Q
 from django.utils.http import base36_to_int
 from django.contrib.auth.tokens import default_token_generator
+
 from apps.profiles.models import Profile
 
 class VHMSProfileModelBackend(ModelBackend):

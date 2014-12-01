@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse, NoReverseMatch
-from django.conf import settings
 
 class VHMSActiveMenu(object):
     """

@@ -147,7 +147,6 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     "apps.profiles",
-    "apps.accounts",
     "apps.utils",
     )
 

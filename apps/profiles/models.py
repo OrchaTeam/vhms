@@ -17,6 +17,10 @@ class Profile(User):
     is_merchant = models.BooleanField(default=False)
     profiletype = models.CharField(verbose_name=_("Profile Type"), max_length=2)
     avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to, blank=True)
+    about = models.CharField(verbose_name=_("About myself"), max_length=1024)
+    city = models.CharField(verbose_name=_("City"), max_length=128)
+    country = models.CharField(verbose_name=_("Country"), max_length=128)
+
     objects = UserManager()
 
     class Meta:
