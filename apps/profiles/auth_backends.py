@@ -24,7 +24,7 @@ class VHMSProfileModelBackend(ModelBackend):
             try:
                 profile = Profile.objects.get(**kwargs)
             except Profile.DoesNotExist:
-                print("hello")
+                pass
             else:
                 if default_token_generator.check_token(profile, token):
                     return profile

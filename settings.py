@@ -47,7 +47,6 @@ TEMPLATE_LOADERS = (
 # Backends
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    "mezzanine.core.auth_backends.MezzanineBackend",
     "apps.profiles.auth_backends.VHMSProfileModelBackend",
     #"allauth.account.auth_backends.AuthenticationBackend",
     )

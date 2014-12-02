@@ -10,7 +10,7 @@ from .models import Profile
 
 class VHMSUserBaseForm(forms.ModelForm):
     """
-    It is the base form for users profile. Base clean() methods are defined here.
+    It is the base form for users profile. Base clean() methods are defined there.
     """
 
     class Meta:
