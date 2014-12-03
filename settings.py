@@ -46,8 +46,8 @@ TEMPLATE_LOADERS = (
 
 # Backends
 AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
     "apps.profiles.auth_backends.VHMSProfileModelBackend",
+    "django.contrib.auth.backends.ModelBackend",
     #"allauth.account.auth_backends.AuthenticationBackend",
     )
 
@@ -171,6 +171,7 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",

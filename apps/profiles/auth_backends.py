@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
-from django.db.models import get_model, Q
+from django.db.models import Q
 from django.utils.http import base36_to_int
 from django.contrib.auth.tokens import default_token_generator
 
@@ -11,9 +11,9 @@ class VHMSProfileModelBackend(ModelBackend):
         if username:
             username_or_email = Q(username=username) | Q(email=username)
             try:
-                profile = Profile.objects.get(username_or_email, **kwargs)
-                if profile.check_password(password):
-                    return profile
+                user = Profile.objects.get(username_or_email, **kwargs)
+                if user.check_password(password):
+                    return user
             except Profile.DoesNotExist:
                 pass
         else:
@@ -22,12 +22,12 @@ class VHMSProfileModelBackend(ModelBackend):
             kwargs["id"] = base36_to_int(kwargs.pop("uidb36"))
             token = kwargs.pop("token")
             try:
-                profile = Profile.objects.get(**kwargs)
+                user = Profile.objects.get(**kwargs)
             except Profile.DoesNotExist:
                 pass
             else:
-                if default_token_generator.check_token(profile, token):
-                    return profile
+                if default_token_generator.check_token(user, token):
+                    return user
 
     def get_user(self, user_id):
         try:
