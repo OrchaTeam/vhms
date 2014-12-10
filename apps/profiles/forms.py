@@ -3,9 +3,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.db.models import Q
 
-from .models import Profile
+#from .models import Profile
 
 
 class VHMSUserBaseForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class VHMSUserBaseForm(forms.ModelForm):
     """
 
     class Meta:
-        model = Profile
+        model = User
         fields = ("username", "email", "first_name", "last_name",)
 
     def __init__(self, *args, **kwargs):
@@ -46,15 +47,15 @@ class VHMSUserBaseForm(forms.ModelForm):
 
         try:
             query = {'username__iexact': username}
-            Profile.objects.get(**query)
-        except Profile.DoesNotExist:
+            User.objects.get(**query)
+        except User.DoesNotExist:
             return username
         raise forms.ValidationError(_("This username is already taken. Please "
                                       "choose another."))
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        qs = Profile.objects.filter(email=email)
+        qs = User.objects.filter(email=email)
         if len(qs) == 0:
             return email
         raise forms.ValidationError(_("This email is already registered"))
@@ -75,14 +76,6 @@ class VHMSUserBaseForm(forms.ModelForm):
         raise forms.ValidationError(_("Last name can not be used. "
                                       "Please use other username."))
 
-    def clean_country(self):
-        return self.cleaned_data.get("country")
-
-    def clean_city(self):
-        return self.cleaned_data.get("city")
-
-    def clean_about(self):
-        return self.cleaned_data.get("about")
 
 class VHMSUserPasswordBaseForm(forms.ModelForm):
     """
@@ -104,7 +97,7 @@ class VHMSUserPasswordBaseForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Profile
+        model = User
         fields = ()
 
     def clean_password2(self):
@@ -158,7 +151,7 @@ class VHMSUserPasswordChangeForm(VHMSUserPasswordBaseForm):
     def __init__(self, *args, **kwargs):
         super(VHMSUserPasswordChangeForm, self).__init__(*args, **kwargs)
         if self.instance.id:
-            self.profile = Profile.objects.get(id=self.instance.id)
+            self.profile = User.objects.get(id=self.instance.id)
 
     def save(self, *args, **kwargs):
         password = self.cleaned_data.get("password1")
@@ -231,8 +224,8 @@ class VHMSUserProfileForm(VHMSUserBaseForm):
     """
 
     class Meta:
-        model = Profile
-        fields = ("first_name", "last_name", "country", "city", "about", )
+        model = User
+        fields = ("first_name", "last_name", )
 
 
 class VHMSUserPasswordResetForm(forms.Form):
@@ -247,8 +240,8 @@ class VHMSUserPasswordResetForm(forms.Form):
         input = self.cleaned_data.get("username_or_email")
         username_or_email = Q(username=input) | Q(email=input)
         try:
-            profile = Profile.objects.get(username_or_email, is_active=True)
-        except Profile.DoesNotExist:
+            profile = User.objects.get(username_or_email, is_active=True)
+        except User.DoesNotExist:
             raise forms.ValidationError(
                 ugettext("Invalid username/email"))
         else:

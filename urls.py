@@ -7,8 +7,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from config import views_settings as views_names
 
-# {WORKAROUND: clean dependencies}
-from mezzanine.core.views import direct_to_template
+from apps.core.views import direct_to_template
 
 
 admin.autodiscover()

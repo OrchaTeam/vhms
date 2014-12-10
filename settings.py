@@ -118,13 +118,13 @@ DJANGO_APPS = (
     )
 
 MEZZANINE_APPS = (
-    "mezzanine.boot",
-    "mezzanine.conf",
-    "mezzanine.core",
-    "mezzanine.generic",
-    "mezzanine.forms",
-    "mezzanine.pages",
-    "mezzanine.accounts",
+    #"mezzanine.boot",
+    #"mezzanine.conf",
+    #"mezzanine.core",
+    #"mezzanine.generic",
+    #"mezzanine.forms",
+    #"mezzanine.pages",
+    #"mezzanine.accounts",
     #"mezzanine.blog",
     #"mezzanine.galleries",
     #"mezzanine.twitter",
@@ -145,6 +145,7 @@ THIRD_PARTY_APPS = (
     )
 
 LOCAL_APPS = (
+    "apps.core",
     "apps.profiles",
     "apps.utils",
     )
@@ -160,14 +161,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.request",
     "django.core.context_processors.tz",
-    "mezzanine.conf.context_processors.settings",
-    "mezzanine.pages.context_processors.page",
+    #"mezzanine.conf.context_processors.settings",
+    #"mezzanine.pages.context_processors.page",
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
 
 MIDDLEWARE_CLASSES = (
-    "mezzanine.core.middleware.UpdateCacheMiddleware",
+    #"mezzanine.core.middleware.UpdateCacheMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -175,16 +176,16 @@ MIDDLEWARE_CLASSES = (
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "mezzanine.core.request.CurrentRequestMiddleware",
-    "mezzanine.core.middleware.RedirectFallbackMiddleware",
-    "mezzanine.core.middleware.TemplateForDeviceMiddleware",
-    "mezzanine.core.middleware.TemplateForHostMiddleware",
-    "mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
-    "mezzanine.core.middleware.SitePermissionMiddleware",
+    #"mezzanine.core.request.CurrentRequestMiddleware",
+    #"mezzanine.core.middleware.RedirectFallbackMiddleware",
+    #"mezzanine.core.middleware.TemplateForDeviceMiddleware",
+    #"mezzanine.core.middleware.TemplateForHostMiddleware",
+    #"mezzanine.core.middleware.AdminLoginInterfaceSelectorMiddleware",
+    #"mezzanine.core.middleware.SitePermissionMiddleware",
     # Uncomment the following if using any of the SSL settings:
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
-    "mezzanine.pages.middleware.PageMiddleware",
-    "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    #"mezzanine.pages.middleware.PageMiddleware",
+    #"mezzanine.core.middleware.FetchFromCacheMiddleware",
 )
 
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
