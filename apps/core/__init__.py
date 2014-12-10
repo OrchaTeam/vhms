@@ -1,1 +1,1 @@
-default_app_config = 'apps.apps.CoreConfig'
+default_app_config = 'vhms.apps.apps.CoreConfig'

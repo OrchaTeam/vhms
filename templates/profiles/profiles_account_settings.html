@@ -1,5 +1,6 @@
 {% extends "_layouts/_base.html" %}
-{% load i18n future mezzanine_tags accounts_tags widget_tweaks %}
+{% load i18n future widget_tweaks %}
+{% load static from staticfiles %}
 
 {% block page_title %}{{ title }}{% endblock %}
 
@@ -29,7 +30,7 @@
 <div class="site-container">
     <div class="nav-container btn-group-vertical text-left panel-default">
         <p class="profile-name panel-heading">
-            <span><img class="img-thumbnail" src="{% gravatar_url user.email 15 %}" /></span>
+            <span><img class="img-thumbnail" src='{% static "img/default-avatar.jpeg" %}' height="16px" width="16px"/></span>
             <span class="h4">{{ user.username }}</span>
         </p>
         {% include "_layouts/_nav.html" %}

@@ -1,4 +1,5 @@
 from django import template
+from allauth.socialaccount import admin
 
 register = template.Library()
 

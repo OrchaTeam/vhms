@@ -1,1 +1,1 @@
-default_app_config = 'apps.apps.ProfilesConfig'
+default_app_config = 'vhms.apps.apps.ProfilesConfig'

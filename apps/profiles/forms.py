@@ -76,6 +76,14 @@ class VHMSUserBaseForm(forms.ModelForm):
         raise forms.ValidationError(_("Last name can not be used. "
                                       "Please use other username."))
 
+    def clean_about(self):
+        return self.cleaned_data.get("about")
+
+    def clean_city(self):
+        return self.cleaned_data.get("city")
+
+    def clean_country(self):
+        return self.cleaned_data.get("country")
 
 class VHMSUserPasswordBaseForm(forms.ModelForm):
     """
@@ -223,9 +231,20 @@ class VHMSUserProfileForm(VHMSUserBaseForm):
     parent base form.
     """
 
+    about = forms.CharField(widget=forms.Textarea, label=_("About me"))
+    city = forms.CharField(label=_("City"))
+    country = forms.CharField(label=_("Country"))
+
     class Meta:
         model = User
         fields = ("first_name", "last_name", )
+
+    def save(self, commit=True):
+        super(VHMSUserProfileForm, self).save()
+        self.instance.user.about = self.cleaned_data.get("about")
+        self.instance.user.city = self.cleaned_data.get("city")
+        self.instance.user.country = self.cleaned_data.get("country")
+        self.instance.user.save()
 
 
 class VHMSUserPasswordResetForm(forms.Form):
