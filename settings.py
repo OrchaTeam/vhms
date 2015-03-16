@@ -3,8 +3,6 @@ import dj_database_url
 
 SECRET_KEY = "4b3b840c-16a2-4a06-a772-eac93b8ae12278f84f40-2ee7-4ced-8142-e0b42a20c56a8b98d246-057b-4afa-8c08-2177451fca4f"
 
-USE_SOUTH = True
-
 ADMINS = (
     ("Eugene Belozerov", "belozja@gmail.com"),
     ("Alexander Klimov", "klimov.alexandr@gmail.com"),
@@ -117,23 +115,9 @@ DJANGO_APPS = (
     "django.contrib.messages",
     )
 
-MEZZANINE_APPS = (
-    #"mezzanine.boot",
-    #"mezzanine.conf",
-    #"mezzanine.core",
-    #"mezzanine.generic",
-    #"mezzanine.forms",
-    #"mezzanine.pages",
-    #"mezzanine.accounts",
-    #"mezzanine.blog",
-    #"mezzanine.galleries",
-    #"mezzanine.twitter",
-    #"mezzanine.mobile",
-    )
-
 THIRD_PARTY_APPS = (
-    "allauth",
-    "allauth.account",
+    #"allauth",
+    #"allauth.account",
     #"allauth.socialaccount",
     #"allauth.socialaccount.providers.github",
     #"allauth.socialaccount.providers.facebook",
@@ -142,6 +126,7 @@ THIRD_PARTY_APPS = (
     "gunicorn",
     "debug_toolbar",
     "storages",
+    "grappelli_safe",
     )
 
 LOCAL_APPS = (
@@ -150,7 +135,7 @@ LOCAL_APPS = (
     "apps.utils",
     )
 
-INSTALLED_APPS = DJANGO_APPS + MEZZANINE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -163,8 +148,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     #"mezzanine.conf.context_processors.settings",
     #"mezzanine.pages.context_processors.page",
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
+    #"allauth.account.context_processors.account",
+    #"allauth.socialaccount.context_processors.socialaccount",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -186,19 +171,6 @@ MIDDLEWARE_CLASSES = (
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
     #"mezzanine.pages.middleware.PageMiddleware",
     #"mezzanine.core.middleware.FetchFromCacheMiddleware",
-)
-
-PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
-PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
-
-#########################
-# OPTIONAL APPLICATIONS #
-#########################
-
-# These will be added to ``INSTALLED_APPS``, only if available.
-OPTIONAL_APPS = (
-    PACKAGE_NAME_FILEBROWSER,
-    PACKAGE_NAME_GRAPPELLI,
 )
 
 try:

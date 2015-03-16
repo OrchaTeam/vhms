@@ -14,7 +14,6 @@ from apps.utils.urls import next_url, login_redirect
 from config import views_settings as views_names
 
 
-
 class VHMSUserSignupView(View):
     """
 
@@ -143,8 +142,8 @@ class VHMSUserProfileView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = forms.VHMSUserProfileForm(
-            request.POST,
-            request.FILES,
+            data=request.POST,
+            files=request.FILES,
             instance=request.user)
         context = {"form": form, "title": self.title}
         if form.is_valid():

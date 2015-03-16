@@ -6,8 +6,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-#from .models import Profile
-
 
 class VHMSUserBaseForm(forms.ModelForm):
     """
@@ -241,10 +239,10 @@ class VHMSUserProfileForm(VHMSUserBaseForm):
 
     def save(self, commit=True):
         super(VHMSUserProfileForm, self).save()
-        self.instance.user.about = self.cleaned_data.get("about")
-        self.instance.user.city = self.cleaned_data.get("city")
-        self.instance.user.country = self.cleaned_data.get("country")
-        self.instance.user.save()
+        self.instance.profile.about = self.cleaned_data.get("about")
+        self.instance.profile.city = self.cleaned_data.get("city")
+        self.instance.profile.country = self.cleaned_data.get("country")
+        self.instance.save()
 
 
 class VHMSUserPasswordResetForm(forms.Form):

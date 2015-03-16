@@ -7,9 +7,6 @@ from django.conf import settings
 
 from apps.utils.urls import next_url
 
-# {WORKAROUND: delete dependencies}
-# from mezzanine.conf.context_processors import settings as context_settings
-
 
 def subject_template(template, context):
     """
@@ -39,8 +36,6 @@ def send_mail_template(subject, template, addr_from, addr_to, context=None,
         fail_silently = settings.EMAIL_FAIL_SILENTLY
     # Add template accessible settings from Mezzanine to the context
     # (normally added by a context processor for HTTP requests)
-
-    #context.update(context_settings())
 
     # Allow for a single address to be passed in.
     # Python 3 strings have an __iter__ method, so the following hack
