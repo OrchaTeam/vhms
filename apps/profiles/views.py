@@ -66,13 +66,11 @@ class VHMSUserPasswordChangeView(View):
     def init_form(self, request):
         if request.path == reverse("account_settings"):
             self.form = forms.VHMSExtendUserPasswordChangeForm(data=request.POST or None, instance=request.user)
-            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Account Settings"),
                     'redirect_link': views_names.VHMS_PROFILE_ACCOUNT_SETTINGS,
                     'template': "profiles/profiles_account_settings.html"}
         else:
             self.form = forms.VHMSUserPasswordChangeForm(data=request.POST or None, instance=request.user)
-            # {WORKAROUND: fix static in redirect_link}
             return {'title': _("Update Password"),
                     'redirect_link': views_names.VHMS_CORE_HOME,
                     'template': "profiles/account_password_change.html"}
