@@ -136,7 +136,7 @@ class VHMSUserProfileView(TemplateView):
     title = _("Update Profile")
 
     def get(self, request, *args, **kwargs):
-        form = forms.VHMSUserProfileForm(instance=request.user)
+        form = forms.VHMSUserProfileForm(instance=request.user.profile)
         context = {"form": form, "title": self.title}
         return render(request, self.template_name, context)
 
@@ -144,7 +144,7 @@ class VHMSUserProfileView(TemplateView):
         form = forms.VHMSUserProfileForm(
             data=request.POST,
             files=request.FILES,
-            instance=request.user)
+            instance=request.user.profile)
         context = {"form": form, "title": self.title}
         if form.is_valid():
             form.save()

@@ -15,28 +15,36 @@ class Profile(models.Model):
     """
 
     """
+
     user = models.OneToOneField(User, related_name='profile')
     is_merchant = models.BooleanField(default=False)
     profiletype = models.CharField(verbose_name=_("Profile Type"), max_length=2)
+    first_name = models.CharField(verbose_name=_("First Name"), max_length=64)
+    last_name = models.CharField(verbose_name=("Last Name"), max_length=64)
     avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to, blank=True)
     about = models.CharField(verbose_name=_("About myself"), max_length=1024)
-    city = models.CharField(verbose_name=_("City"), max_length=128)
-    country = models.CharField(verbose_name=_("Country"), max_length=128)
+    city = models.CharField(verbose_name=_("City"), max_length=128, blank=True)
+    country = models.CharField(verbose_name=_("Country"), max_length=128, blank=True)
 
     class Meta:
         verbose_name = _("Profile")
 
-    def save(self, *args, **kwargs):
-        # 1 - for local profile, 2 - for social accounts. mock.
-        # { WORKAROUND: убрать статическую переменную}
-        self.profiletype = 1
-        super(Profile, self).save(*args, **kwargs)
 
-
-
-def create_user_profile(sender, instance, created, **kwargs):
+# local -
+def create_profile_from_local(sender, instance, created, **kwargs):
+    """
+    It's the method for creating a profile
+    instance after a local registration.
+    It's launched by a signal.
+    """
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.get_or_create(
+            user=instance,
+            defaults={
+                "first_name": instance.first_name,
+                "last_name": instance.last_name,
+                "profiletype": 1})
 
-signals.post_save.connect(create_user_profile, sender=User)
 
+# signal from local registration
+signals.post_save.connect(create_profile_from_local, sender=User)
