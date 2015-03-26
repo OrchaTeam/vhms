@@ -19,8 +19,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     is_merchant = models.BooleanField(default=False)
     profiletype = models.CharField(verbose_name=_("Profile Type"), max_length=2)
-    first_name = models.CharField(verbose_name=_("First Name"), max_length=64)
-    last_name = models.CharField(verbose_name=("Last Name"), max_length=64)
+    first_name = models.CharField(verbose_name=_("First Name"), max_length=30)
+    last_name = models.CharField(verbose_name=("Last Name"), max_length=30)
     avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to, blank=True)
     about = models.CharField(verbose_name=_("About myself"), max_length=1024)
     city = models.CharField(verbose_name=_("City"), max_length=128, blank=True)
@@ -30,10 +30,9 @@ class Profile(models.Model):
         verbose_name = _("Profile")
 
 
-# local -
 def create_profile_from_local(sender, instance, created, **kwargs):
     """
-    It's the method for creating a profile
+    It's the method for a creating profile
     instance after a local registration.
     It's launched by a signal.
     """

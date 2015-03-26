@@ -17,17 +17,11 @@
     <header>
         {% include "_layouts/_header.html" %}
     </header>
-<!-- 
-    <div id="content">
-        <div class="container">
-            {WORKAROUND: выпилить} -->
-            <div class='notifications top-right blackgloss'></div> 
-            {% block page_content %}
-            {% endblock %}
-       <!-- </div> -->
-            {% block page_under_content %}
-            {% endblock %}
-    <!--/div-->
+    <div class='notifications top-right blackgloss'></div>
+    {% block page_content %}
+    {% endblock %}
+    {% block page_under_content %}
+    {% endblock %}
     <div id="footer">
         {% block page_footer %}
         {% endblock %}
@@ -35,6 +29,7 @@
 </body>
 </html>
 
+<!-- { DEFECT: fix a view of notifications. this shows one message instead all. -->
 {% block page_js %}
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="{% static "js/bootstrap.js" %}"></script>
@@ -53,30 +48,45 @@
         }).show();
     </script>
 {% endfor %}
+
 <script type="text/javascript"> 
 {% if form.errors or form.non_field_errors %}
     {% for field in form %}
-            {% if field.errors %}
-
-        $('.top-right').notify({
-            closable: false,
-            message: { 
-                html: '<strong>{% trans "Error" %} </strong><p>{{ field.label }}: {{ field.errors|striptags }}</p>',
-                text: '<p>{{ field.label }}: {{ field.errors|striptags }}</p>' },
-            type: 'info'
-        }).show();
-    
-            {% endif %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-            
+        {% if field.errors %}
+            $('.top-right').notify({
+                closable: false,
+                message: {
+                    html: '<strong>{% trans "Error" %} </strong><p>{{ field.label }}: {{ field.errors|striptags }}</p>',
+                    text: '<p>{{ field.label }}: {{ field.errors|striptags }}</p>' },
+                type: 'info'
+            }).show();
+        {% endif %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
         $('.top-right').notify({
             closable: false,
             message: { 
                 text: '{{ error }}' },
             type: 'info'
         }).show();
-        {% endfor %}    
+    {% endfor %}
 {% endif %}
  </script>
-{% endblock page_js %}
+{% endblock %}
+
+
+<!--error popup-->
+{% if form.errors or form.non_field_errors %}
+<div class="alert alert-warning form-signin-alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>{% trans "Error" %}</strong>
+    {% for field in form %}
+        {% if field.errors %}
+        <p>{{ field.label }}: {{ field.errors|striptags }}</p>
+        {% endif %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        {{ error }}
+    {% endfor %}
+</div>
+{% endif %}

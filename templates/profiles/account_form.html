@@ -9,39 +9,27 @@
 {% endblock %}
 
 {% block page_content %}
-<!--error popup-->
-{% if form.errors or form.non_field_errors %}
-<div class="alert alert-warning form-signin-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>{% trans "Error" %}</strong>
-    {% for field in form %}
-        {% if field.errors %}
-        <p>{{ field.label }}: {{ field.errors|striptags }}</p>
-        {% endif %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        {{ error }}
-    {% endfor %}
-</div>
-{% endif %}
 
 <div class="container">
-
-        <form class="form-signin" role="form" method="post">
-            <p><img class="logo-md" src="{{ STATIC_URL }}img/logo.png" /></p>
-        {% comment %} <div class="form-signin-heading"><h2>{{ title }}</h2></div> {% endcomment %} 
+    <form class="form-signin" role="form" method="post">
+        <p><img class="logo-md" src="{{ STATIC_URL }}img/logo.png" /></p>
         {% csrf_token %}
         {% for field in form %}
-            {% render_field field placeholder=field.label class+="form-control" %} 
+            {% render_field field placeholder=field.label class+="form-control" %}
         {% endfor %}
         {% if "Sign in" in title %}
         {% url 'accounts_signup' as signup_url %}
-        <p>{% blocktrans %} If you don't have an account you can <a href="{{ signup_url }}?next={{ next }}">sign up</a> for one now. {%endblocktrans %}</p>
+        <p>{% blocktrans %} If you don't have an account you can
+            <a href="{{ signup_url }}?next={{ next }}">sign up</a> for one now. {%endblocktrans %}</p>
         {% url 'accounts_reset' as reset_url %}
-        <p>{% blocktrans %} <a href="{{ reset_url }}">Reset password?</a> {%endblocktrans %}</p>
+        <p>{% blocktrans %}
+            <a href="{{ reset_url }}">Reset password?</a> {%endblocktrans %}</p>
         {% elif "Sign up" in title %}
         {% url 'accounts_login' as login_url %}
-        <p>{% blocktrans %} If you have an account you can <a href="{{ login_url }}?next={{ next }}">sign in</a> for one now. {% endblocktrans %}</p>
+        <p>
+            {% blocktrans %} If you have an account you can
+            <a href="{{ login_url }}?next={{ next }}">sign in</a> for one now. {% endblocktrans %}
+        </p>
         {% endif %}
         <div class="submit-container">
             {% block account_form_actions %}
@@ -49,6 +37,5 @@
             {% endblock %}
         </div>
     </form>
-
 </div>
 {% endblock %}

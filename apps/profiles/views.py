@@ -13,6 +13,7 @@ from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
 from config import views_settings as views_names
 
+# { TO DO: refactoring. get and post methods need to merge }
 
 class VHMSUserSignupView(View):
     """
@@ -74,7 +75,6 @@ class VHMSUserPasswordChangeView(View):
             return {'title': _("Update Password"),
                     'redirect_link': views_names.VHMS_CORE_HOME,
                     'template': "profiles/account_password_change.html"}
-
 
 class VHMSUserPasswordVerifyRedirectView(RedirectView):
     """
