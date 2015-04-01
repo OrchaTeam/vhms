@@ -133,7 +133,7 @@ LOCAL_APPS = (
     "apps.core",
     "apps.profiles",
     "apps.utils",
-    `"apps.showroom",
+    "apps.showroom",
     )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -196,12 +196,6 @@ except ImportError:
 
 try:
     from config.utils_settings import *
-except ImportError:
-    pass
-
-try:
-    from mezzanine.utils.conf import set_dynamic_settings
-    set_dynamic_settings(globals())
 except ImportError:
     pass
 
