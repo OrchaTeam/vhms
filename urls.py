@@ -22,7 +22,7 @@ urlpatterns += i18n_patterns("",
     ("^admin/", include(admin.site.urls)),
 )
 
-# Include
+# Includes
 urlpatterns += patterns("", 
     url(r"^", include("apps.profiles.urls", app_name="profiles")),
 )
@@ -30,7 +30,6 @@ urlpatterns += patterns("",
 # Overall
 urlpatterns += patterns('',
     url("^$", direct_to_template, {"template": "index.html"}, name=views_names.VHMS_CORE_HOME),
-    url("^main/$", direct_to_template, {"template": "main.html"}, name=views_names.VHMS_CORE_TEST_HOME),
 )
 
 # Static

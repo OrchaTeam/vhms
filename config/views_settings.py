@@ -12,3 +12,6 @@ VHMS_PROFILE_SIGNUP_VERIFY = "signup_verify"
 VHMS_PROFILE_PASSWORD_RESET_VERIFY = "password_reset_verify"
 VHMS_PROFILE_PASSWORD_CHANGE = "password_change"
 VHMS_PROFILE_PASSWORD_RESET = "accounts_reset"
+
+# showroom names of views
+VHMS_SHOWROOM_CATEGORY = "category"

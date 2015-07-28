@@ -13,7 +13,7 @@ from apps.profiles import forms
 from apps.utils.urls import next_url, login_redirect
 from config import views_settings as views_names
 
-# { TO DO: refactoring. get and post methods need to merge }
+# { TO DO: 050420151508 refactoring. get and post methods need to merge }
 
 class VHMSUserSignupView(View):
     """
