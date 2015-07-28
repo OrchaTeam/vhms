@@ -8,7 +8,8 @@ from django.db.models import signals
 
 def upload_avatar_to(instance, filename):
     filename_base, filename_ext = splitext(filename)
-    return 'profiles/%s%s' % (now().strftime("%Y%m%d%H%M%S"),filename_ext.lower(),)
+    return 'profiles/%s%s' % (now().strftime("%Y%m%d%H%M%S"),
+                              filename_ext.lower(),)
 
 
 class Profile(models.Model):
@@ -21,10 +22,12 @@ class Profile(models.Model):
     profiletype = models.CharField(verbose_name=_("Profile Type"), max_length=2)
     first_name = models.CharField(verbose_name=_("First Name"), max_length=30)
     last_name = models.CharField(verbose_name=("Last Name"), max_length=30)
-    avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to, blank=True)
+    avatar = models.ImageField(_("Avatar"), upload_to=upload_avatar_to,
+                               blank=True)
     about = models.CharField(verbose_name=_("About myself"), max_length=1024)
     city = models.CharField(verbose_name=_("City"), max_length=128, blank=True)
-    country = models.CharField(verbose_name=_("Country"), max_length=128, blank=True)
+    country = models.CharField(verbose_name=_("Country"), max_length=128,
+                               blank=True)
 
     class Meta:
         verbose_name = _("Profile")

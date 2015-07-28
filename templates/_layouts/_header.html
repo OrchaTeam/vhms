@@ -10,13 +10,14 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Virtual Hand Made Shop</a>
+            <a class="navbar-brand" href="/">your sence</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/main">Домой</a></li>
-                <li><a href="{%comment%}{% url 'smartproject:about' %}{%endcomment%}">О проекте</a></li>
-                <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">Контакты</a></li>
+                <li><a href="{%comment%}{% url 'smartproject:about' %}{%endcomment%}">{% trans "Show Room" %}</a></li>
+                <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">{% trans "Maker Hall" %}</a></li>
+                <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">{% trans "Press Room" %}</a></li>
+                <li><a href="{%comment%}{% url 'smartproject:contact' %}{%endcomment%}">{% trans "Your Assistant" %}</a></li>
             </ul>
             {% if user.is_authenticated %}
                 <div>
